@@ -9,7 +9,19 @@
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <meta name="description" content="The personal portfolio of Terry Ong: projects, skills, and contact." />
   <meta name="color-scheme" content="dark light" />
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">  
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else {
+        // Optional: honor OS preference on first visit
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        document.documentElement.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
+      }
+    })();
+  </script>
 </head>
 <body>
   <!-- ===== NAV ===== -->
@@ -22,7 +34,7 @@
       <button class="btn btn-ghost menu" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation">☰</button>
       <div class="nav-actions">
         <div class="nav-links" id="navLinks">
-          <a href="#about">About</a>
+          <a href="#certifications">Certs</a>
           <a href="#skills">Skills</a>
           <a href="#projects">Projects</a>
           <a href="#experience">Experience</a>
@@ -41,8 +53,8 @@
     <div class="container hero-grid">
       <div>
         <p class="kicker">Hello, I'm</p>
-        <h1 class="headline"> <span class="grad">Terry Ong</span> — IT Ops Generalist</h1>
-        <p class="sub">Welcome to my portfolio! Explore my journey and expertise as an IT graduate.</p>
+        <h1 class="headline"> <span class="grad">Terry Ong</span> — ITOps Generalist</h1>
+        <p class="sub">A computer science graduate with experience in IT infrastructure and a background in web/software dev, cloud and artificial intelligence.<br><br>Outside of code, I’m a person who enjoys competition, a musician, and gamer.</p>
         <div class="cta-row">
           <a class="btn" href="documents/Ong_Kok_Donq_Resume.pdf" download>Download Resume</a>
         </div>
@@ -60,44 +72,51 @@
     </div>
   </header>
 
-  <!-- ===== ABOUT ===== -->
-  <section id="about" class="about">
+  <!-- ===== GALLERY ===== -->
+  <section id="gallery" class="gallery">
     <div class="container">
       <div class="section-head">
-        <h2 class="section-title">About</h2>
-        <p class="section-desc">A brief introduction to who I am.</p>
+        <h2 class="section-title">Gallery</h2>
+        <p class="section-desc">A few images of me.</p>
       </div>
-      <div class="card">
-        <p>I’m a final-year Computer Science student graduating in October 2025 with six months of IT infrastructure experience. I build reliable systems and practical web apps, combining Azure, Power Platform, and generative AI. I’m AI-900, AZ-900, and PL-900 certified; AAIMS25 Buildathon Youth Winner and PayNet VDEP Ideathon 1st Runner-Up. I value clear communication, teamwork, and straight-to-the-point problem solving.</p>
-        <p>Outside of code, I’m a hackathon enthusiast, performing musician, and gamer.</p>
+      <div class="gallery-wrap card">
+        <button class="g-btn g-prev" aria-label="Previous image">‹</button>
+        <div class="g-frame" aria-live="polite">
+          <!-- Add your images to /gallery and name them 1.jpg, 2.jpg, ... -->
+          <img class="g-item" src="gallery/1.jpg" alt="Gallery image 1" />
+          <img class="g-item" src="gallery/2.jpg" alt="Gallery image 2" />
+          <img class="g-item" src="gallery/3.jpg" alt="Gallery image 3" />
+        </div>
+        <button class="g-btn g-next" aria-label="Next image">›</button>
+        <div class="g-dots" aria-hidden="false"></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== SKILLS ===== -->
-  <section id="skills">
+  <!-- ===== EXPERIENCE ===== -->
+  <section id="experience">
     <div class="container">
       <div class="section-head">
-        <h2 class="section-title">Skills</h2>
-        <p class="section-desc">A selection of tools and technologies I use.</p>
+        <h2 class="section-title">Experience</h2>
+        <p class="section-desc">Snapshot of roles and contributions.</p>
       </div>
-      <div class="card">
-        <div class="skills">
-          <span class="skill">HTML5</span>
-          <span class="skill">CSS3</span>
-          <span class="skill">JavaScript</span>
-          <span class="skill">Python</span>
-          <span class="skill">Git & GitHub</span>
-          <span class="skill">REST APIs</span>
-          <span class="skill">CLI & Scripting</span>
-          <span class="skill">Powershell</span>
-          <span class="skill">Networking</span>
-          <span class="skill">Cloud Infastructure</span>
+      <div class="card timeline">
+        <div class="t-item">
+          <h3 style="margin-bottom:1%;">IT Infrastructure Intern</h3> 
+          <div style="gap:1rem; display:flex; align-items:baseline; justify-content:space-between;">
+            <p><span class="muted">Texchem Corporation Sdn Bhd</span><p><span class="muted" style="text-align:right;">Apr 2025 — Oct 2025</span></p>
+          </div>
+          <ul style="margin-top:1%;">
+            <li>Cut asset audit time by 30% using powershell.</li>
+            <li>Deployed a dedicated asset monitoring system for ease of access.</li>
+            <li>Co-implemented osTicket system within the corporate environment.</li>
+            <li>Hands on experience with physical servers, VPNs and A/V tools.</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
-
+  
   <!-- ===== PROJECTS ===== -->
   <section id="projects">
     <div class="container">
@@ -153,25 +172,123 @@
     </div>
   </section>
 
-  <!-- ===== EXPERIENCE ===== -->
-  <section id="experience">
+  <!-- ===== Certifications ===== -->
+  <section id="certifications">
     <div class="container">
       <div class="section-head">
-        <h2 class="section-title">Experience</h2>
-        <p class="section-desc">Snapshot of roles and contributions.</p>
+        <h2 class="section-title">Certifications</h2>
+        <p class="section-desc">These are a few IT certifications that I own.</p>
       </div>
-      <div class="card timeline">
-        <div class="t-item">
-          <h3 style="margin-bottom:1%;">IT Infrastructure Intern</h3> 
-          <div style="gap:1rem; display:flex; align-items:baseline; justify-content:space-between;">
-            <p><span class="muted">Texchem Corporation Sdn Bhd</span><p><span class="muted" style="text-align:right;">Apr 2025 — Oct 2025</span></p>
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>AI-900</h3>
+          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
+          <p class="muted">Microsoft Certified: Azure AI Fundamentals</p>
+          <div class="tags">
+            <span class="tag">AI</span>
+            <span class="tag">Azure</span>
+            <span class="tag">Machine Learning</span>
           </div>
-          <ul style="margin-top:1%;">
-            <li>Cut asset audit time by 30% using powershell.</li>
-            <li>Deployed a dedicated asset monitoring system for ease of access.</li>
-            <li>Co-implemented osTicket system within the corporate environment.</li>
-            <li>Hands on experience with physical servers, VPNs and A/V tools.</li>
-          </ul>
+          <div class="spacer"></div>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+            <a class="btn btn-ghost" target="_blank" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/ECDB373D10ECB83C?sharingId=534F1CCAD4F7A268" aria-label="View certification">View</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>AZ-900</h3>
+          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
+          <p class="muted">Microsoft Certified: Azure Fundamentals</p>
+          <div class="tags">
+            <span class="tag">Azure</span>
+            <span class="tag">Cloud</span>
+            <span class="tag">Security</span>
+          </div>
+          <div class="spacer"></div>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>DP-900</h3>
+          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
+          <p class="muted">Microsoft Certified: Data Fundamentals</p>
+          <div class="tags">
+            <span class="tag">SQL</span>
+            <span class="tag">Data</span>
+          </div>
+          <div class="spacer"></div>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>PL-900</h3>
+          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
+          <p class="muted">Microsoft Certified: Power Platform Fundamentals</p>
+          <div class="tags">
+            <span class="tag">Copilot</span>
+            <span class="tag">Dataverse</span>
+            <span class="tag">Power Tools</span>
+          </div>
+          <div class="spacer"></div>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+            <a class="btn btn-ghost" target="_blank" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/68AA749E70800328?sharingId=534F1CCAD4F7A268" aria-label="View certification">View</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>AZ-104</h3>
+          <img src="cert_badges/ms_associate.svg" height="100px"></img>
+          <p class="muted">Microsoft Certified: Azure Administrator Associate</p>
+          <div class="tags">
+            <span class="tag">Azure</span>
+            <span class="tag">Administrator</span>
+          </div>
+          <div class="spacer"></div>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>AI-102</h3>
+          <img src="cert_badges/ms_associate.svg" height="100px"></img>
+          <p class="muted">Microsoft Certified: Azure AI Engineer Associate</p>
+          <div class="tags">
+            <span class="tag">Azure</span>
+            <span class="tag">AI Engineer</span>
+          </div>
+          <div class="spacer"></div>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
+            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS ===== -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">Skills</h2>
+        <p class="section-desc">A selection of tools and technologies I use.</p>
+      </div>
+      <div class="card">
+        <div class="skills">
+          <span class="skill">HTML5</span>
+          <span class="skill">CSS3</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Python</span>
+          <span class="skill">Git & GitHub</span>
+          <span class="skill">REST APIs</span>
+          <span class="skill">CLI & Scripting</span>
+          <span class="skill">Powershell</span>
+          <span class="skill">Networking</span>
+          <span class="skill">Cloud Infastructure</span>
         </div>
       </div>
     </div>
