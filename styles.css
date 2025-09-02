@@ -74,7 +74,7 @@
     .hero-card { border:1px solid var(--border); background: var(--card); border-radius: var(--radius); padding: 1rem; display:grid; gap:.6rem }
     .hero-cards { display:grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
     @media (max-width: 960px) { .hero-cards{ grid-template-columns: 1fr } }
-    .muted { color: var(--muted) }
+    .muted { color: var(--muted);}
 
     /* ===== SECTIONS ===== */
     section { padding: 4rem 0; }
