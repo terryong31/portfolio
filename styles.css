@@ -1,5 +1,5 @@
     /* ===== CSS RESET (trimmed) ===== */
-    *, *::before, *::after { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; transition: 1s ease; }
     * { margin: 0; }
     html, body { height: 100%; }
     body { line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
@@ -104,7 +104,7 @@
     /* ===== TIMELINE ===== */
     .timeline { position:relative; }
     .timeline::before { content:""; position:absolute; left: 11px; top:0; bottom:0; width:2px; background: var(--border) }
-    .t-item { position:relative; padding-left: 2.2rem; margin-bottom: 1.2rem; }
+    .t-item { position:relative; padding-left: 2.2rem; margin-bottom: 0.8rem; }
     .t-item::before { content:""; position:absolute; left:6px; top:.25rem; width:12px; height:12px; border-radius:50%; background: linear-gradient(135deg, var(--primary), var(--primary-2)); box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary), transparent 80%); }
     .t-meta { font-size:.85rem; color: var(--muted); }
 
