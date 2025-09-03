@@ -114,6 +114,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 
   // optional autoplay (commented out)
-  let timer = setInterval(()=> show(idx+1), 5000);
+  let timer = setInterval(()=> show(idx+1), 4000);
   frame.addEventListener('mouseover', ()=> clearInterval(timer));
 })();
