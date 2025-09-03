@@ -22,8 +22,30 @@
       }
     })();
   </script>
+  <!-- Prevent splash flash on subsequent visits: hide the overlay before paint when seenSplash is set -->
+  <style>
+    /* If the html attr data-splash="skip" is present, never show the splash overlay. */
+    html[data-splash="skip"] #splashOverlay { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
+  </style>
+  <script>
+    (function(){
+      try {
+        if (localStorage.getItem('seenSplash') === '1') {
+          // mark document so CSS above hides the overlay before it can render
+          document.documentElement.setAttribute('data-splash', 'skip');
+        }
+      } catch (e) { /* ignore storage errors */ }
+    })();
+  </script>
 </head>
 <body>
+  <!-- SPLASH / FAKE LOADING (only on first visit) -->
+  <div id="splashOverlay" class="splash-overlay" aria-hidden="true">
+    <div class="splash-inner" role="img" aria-label="Loading">
+      <div class="splash-ring" aria-hidden="true"></div>
+      <img src="images/android-chrome-512x512.png" alt="Terry Ong logo">
+    </div>
+  </div>
   <!-- ===== NAV ===== -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
@@ -86,6 +108,7 @@
           <img class="g-item" src="gallery/1.jpg" alt="Gallery image 1" />
           <img class="g-item" src="gallery/2.jpg" alt="Gallery image 2" />
           <img class="g-item" src="gallery/3.jpg" alt="Gallery image 3" />
+          <img class="g-item" src="gallery/4.jpg" alt="Gallery image 3" />
         </div>
         <button class="g-btn g-next" aria-label="Next image">›</button>
         <div class="g-dots" aria-hidden="false"></div>
@@ -102,7 +125,8 @@
       </div>
 
       <div class="card timeline">
-
+        <!-- Collapsible wrapper: we show a collapsed preview and allow expansion -->
+        <div class="timeline-body" id="timelineBody">
         <div class="t-item">
           <h3 style="margin-bottom:1%;">IT Infrastructure Intern</h3> 
           <div style="gap:1rem; display:flex; align-items:baseline; justify-content:space-between;">
@@ -146,11 +170,45 @@
             <p><span class="muted">AI Tinkerers Kuala Lumpur, National AI Office (NAIO)</span><p><span class="muted" style="text-align:right;">Aug 2025</span></p>
           </div>
           <ul style="margin-top:1%;">
-            <li>Participated and won a national level buildathon.</li>
-            <li>Developed a Python based Fast-API backend system with computer vision and google maps.</li>
+            <li>Participated a national level buildathon and won the youth catagory.</li>
+            <li>Developed a Python based Fast-API backend system with computer vision and google maps api.</li>
           </ul>
         </div>
 
+        <div class="t-item">
+          <h3 style="margin-bottom:1%;">Great AI Hackathon</h3> 
+          <div style="gap:1rem; display:flex; align-items:baseline; justify-content:space-between;">
+            <p><span class="muted">AWS, Asia Pacific University</span><p><span class="muted" style="text-align:right;">Sep 2025</span></p>
+          </div>
+          <ul style="margin-top:1%;">
+            <li>Coming Soon</li>
+          </ul>
+        </div>
+
+        <div class="t-item">
+          <h3 style="margin-bottom:1%;">Talentbank Broadroom Challenge</h3> 
+          <div style="gap:1rem; display:flex; align-items:baseline; justify-content:space-between;">
+            <p><span class="muted">Talentbank</span><p><span class="muted" style="text-align:right;">Sep 2025</span></p>
+          </div>
+          <ul style="margin-top:1%;">
+            <li>Coming Soon</li>
+          </ul>
+        </div>
+
+        <div class="t-item">
+          <h3 style="margin-bottom:1%;">07CTF</h3> 
+          <div style="gap:1rem; display:flex; align-items:baseline; justify-content:space-between;">
+            <p><span class="muted">0bscuri7y</span><p><span class="muted" style="text-align:right;">Sep 2025</span></p>
+          </div>
+          <ul style="margin-top:1%;">
+            <li>Coming Soon</li>
+          </ul>
+        </div>
+        </div>
+
+        <div class="timeline-toggle-wrap">
+          <button class="timeline-toggle" id="timelineToggle" aria-expanded="false" aria-controls="timelineBody">Read more</button>
+        </div>
       </div>
     </div>
   </section>
@@ -173,7 +231,7 @@
           </div>
           <div class="spacer"></div>
           <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" href="https://github.com/terryong31/compmed-ar" aria-label="Open source code">Code</a>
+            <a class="btn btn-ghost" target="_blank" href="https://github.com/terryong31/compmed-ar" aria-label="Open source code">Code</a>
           </div>
         </article>
 
@@ -187,8 +245,8 @@
           </div>
           <div class="spacer"></div>
           <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" href="https://helpdesk.terryongkokdonq.xyz/">Live</a>
-            <a class="btn btn-ghost" href="#">Code</a>
+            <a class="btn btn-ghost" target="_blank" href="https://helpdesk.terryongkokdonq.xyz/">Live</a>
+            <a class="btn btn-ghost" target="_blank" href="#">Code</a>
           </div>
         </article>
 
@@ -215,95 +273,54 @@
     <div class="container">
       <div class="section-head">
         <h2 class="section-title">Certifications</h2>
-        <p class="section-desc">These are a few IT certifications that I own.</p>
+        <p class="section-desc">Verify my certifications via Microsoft Learn.</p>
       </div>
-      <div class="grid grid-3">
-        <article class="card">
-          <h3>AI-900</h3>
-          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
-          <p class="muted">Microsoft Certified: Azure AI Fundamentals</p>
-          <div class="tags">
-            <span class="tag">AI</span>
-            <span class="tag">Azure</span>
-            <span class="tag">Machine Learning</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" target="_blank" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/ECDB373D10ECB83C?sharingId=534F1CCAD4F7A268" aria-label="View certification">View</a>
-          </div>
-        </article>
 
-        <article class="card">
-          <h3>AZ-900</h3>
-          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
-          <p class="muted">Microsoft Certified: Azure Fundamentals</p>
-          <div class="tags">
-            <span class="tag">Azure</span>
-            <span class="tag">Cloud</span>
-            <span class="tag">Security</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
-          </div>
-        </article>
+      <div class="cert-carousel">
+        <button class="cert-nav cert-prev" aria-label="Previous certification">‹</button>
 
-        <article class="card">
-          <h3>DP-900</h3>
-          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
-          <p class="muted" style="min-height:60px; display: flex;">Microsoft Certified: Azure Data Fundamentals</p>
-          <div class="tags">
-            <span class="tag">SQL</span>
-            <span class="tag">Data</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
-          </div>
-        </article>
+        <div class="cert-viewport">
+          <div class="cert-track">
+            <!-- Each card is positioned in a 3D ring. The front one is fully sharp/bright. -->
+            <a class="cert-card" data-title="AI-900" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/ECDB373D10ECB83C?sharingId=534F1CCAD4F7A268" target="_blank" rel="noopener">
+              <img src="cert_badges/ms_fundamentals.svg" alt="AI-900 badge">
+              <p>AI-900</p>
+              <span class="muted">Azure AI Fundamentals</span>
+            </a>
 
-        <article class="card">
-          <h3>PL-900</h3>
-          <img src="cert_badges/ms_fundamentals.svg" height="100px"></img>
-          <p class="muted">Microsoft Certified: Power Platform Fundamentals</p>
-          <div class="tags">
-            <span class="tag">Copilot</span>
-            <span class="tag">Dataverse</span>
-            <span class="tag">Power Tools</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" target="_blank" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/68AA749E70800328?sharingId=534F1CCAD4F7A268" aria-label="View certification">View</a>
-          </div>
-        </article>
+            <a class="cert-card" data-title="AZ-900" aria-disabled="true" href="#">
+              <img src="cert_badges/ms_fundamentals.svg" alt="AZ-900 badge">
+              <p>AZ-900</p>
+              <span class="muted">Coming soon</span>
+            </a>
 
-        <article class="card">
-          <h3>AZ-104</h3>
-          <img src="cert_badges/ms_associate.svg" height="100px"></img>
-          <p class="muted">Microsoft Certified: Azure Administrator Associate</p>
-          <div class="tags">
-            <span class="tag">Azure</span>
-            <span class="tag">Administrator</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
-          </div>
-        </article>
+            <a class="cert-card" data-title="DP-900" aria-disabled="true" href="#">
+              <img src="cert_badges/ms_fundamentals.svg" alt="DP-900 badge">
+              <p>DP-900</p>
+              <span class="muted">Coming soon</span>
+            </a>
 
-        <article class="card">
-          <h3>AI-102</h3>
-          <img src="cert_badges/ms_associate.svg" height="100px"></img>
-          <p class="muted">Microsoft Certified: Azure AI Engineer Associate</p>
-          <div class="tags">
-            <span class="tag">Azure</span>
-            <span class="tag">AI Engineer</span>
+            <a class="cert-card" data-title="PL-900" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/68AA749E70800328?sharingId=534F1CCAD4F7A268" target="_blank" rel="noopener">
+              <img src="cert_badges/ms_fundamentals.svg" alt="PL-900 badge">
+              <p>PL-900</p>
+              <span class="muted">Power Platform Fundamentals</span>
+            </a>
+
+            <a class="cert-card" data-title="AZ-104" aria-disabled="true" href="#">
+              <img src="cert_badges/ms_associate.svg" alt="AZ-104 badge">
+              <p>AZ-104</p>
+              <span class="muted">Coming soon</span>
+            </a>
+
+            <a class="cert-card" data-title="AI-102" aria-disabled="true" href="#">
+              <img src="cert_badges/ms_associate.svg" alt="AI-102 badge">
+              <p>AI-102</p>
+              <span class="muted">Coming soon</span>
+            </a>
           </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" targe="_blank" aria-label="View certification">Coming Soon</a>
-          </div>
-        </article>
+        </div>
+
+        <button class="cert-nav cert-next" aria-label="Next certification">›</button>
       </div>
     </div>
   </section>

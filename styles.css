@@ -64,16 +64,36 @@
 
     .menu { display:none }
     @media (max-width: 820px) {
-      .menu { display:inline-flex }
-      .nav-links { display:none }
-      .nav-links.open { display:flex; position:absolute; left:0; right:0; top:64px; padding: .75rem; background: var(--bg-elev); border-bottom: 1px solid var(--border); }
-      .nav-links.open a { flex:1; text-align:center }
+  .menu { display:inline-flex }
+  .nav-links { display:none }
+  /* when opened, stack links vertically and ensure they fit the container */
+  .nav-links.open { display:flex; flex-direction: column; gap: .5rem; position:absolute; left:0; right:0; top:64px; padding: .5rem; background: var(--bg-elev); border-bottom: 1px solid var(--border); box-sizing: border-box; }
+  .nav-links.open a { flex: none; display:block; width:100%; padding:.6rem .75rem; text-align:center; border-radius: 8px; }
+  /* Center the mobile menu button in the nav bar */
+  .nav-inner { position: relative; }
+  .menu { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 60; }
+  /* Hide the plain text name on mobile to make space; keep the logo visible */
+  .brand > span:last-child { display: none }
+      /* Keep menu button centered when hovered (compose transforms) */
+      .menu:hover, .menu:focus {
+        transform: translate(-50%, -50%) translateY(-1px);
+      }
     }
 
     /* ===== HERO ===== */
     .hero { padding: 4rem 0 4rem; position:relative; overflow:hidden; }
     .hero-grid { display:grid; grid-template-columns: 1.2fr .8fr; gap:2rem; align-items:center; }
     @media (max-width: 960px) { .hero-grid{ grid-template-columns: 1fr } }
+
+    /* SPLASH / FAKE LOADING OVERLAY */
+    .splash-overlay {
+      position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; background: var(--bg); z-index: 9999; transition: opacity .45s ease; }
+    .splash-overlay.hidden { opacity: 0; pointer-events: none }
+    .splash-inner { position: relative; display:grid; place-items:center; gap: 1rem }
+    .splash-inner img { width: 96px; height: 96px; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.35) }
+    .splash-ring { position: absolute; width: 140px; height: 140px; border-radius: 50%; border: 6px solid color-mix(in oklab, var(--bg-elev), transparent 10%); }
+    .splash-overlay .splash-ring { animation: splash-spin 1s linear infinite; }
+    @keyframes splash-spin { to { transform: rotate(360deg) } }
 
     .kicker { font-size: .95rem; color: var(--muted); letter-spacing:.12em; text-transform: uppercase; }
     .headline { font-size: clamp(2rem, 5vw, 3.4rem); line-height:1.1; font-weight: 800; margin-top: .5rem; }
@@ -96,17 +116,21 @@
   overflow: hidden;
   }
   .g-item {
-  position: absolute;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;   /* preserve aspect ratio, no stretch */
-  margin: auto;
-  inset: 0;              /* center the image */
-  opacity: 0;
-  transition: opacity .6s cubic-bezier(.2,.9,.2,1);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* keeps ratio */
+    object-position: center;
+    margin: auto;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .6s cubic-bezier(.2,.9,.2,1);
+    pointer-events: none; /* avoid invisible items intercepting clicks */
   }
   .g-item.active {
   opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
   }
   /* overlay left/right buttons */
   .g-btn { background: rgba(0,0,0,.45); color: var(--text); border: none; padding: .5rem .8rem; border-radius: 999px; cursor:pointer; font-size:1.6rem; display:inline-flex; align-items:center; justify-content:center; position:absolute; top:50%; transform:translateY(-50%); z-index:5 }
@@ -122,6 +146,73 @@
       .g-frame { height:220px }
     }
 
+  /* ===== LIGHTBOX / IMAGE VIEW MODE ===== */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.88);
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity .28s ease;
+    pointer-events: none; /* don't block clicks when hidden */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .lightbox.show { opacity: 1; }
+  .lightbox.show { pointer-events: auto; }
+
+  .lightbox .lb-inner {
+    position: relative;
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 12px; /* spacing around image so it never touches edges */
+    display: grid;
+    gap: .6rem;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .lightbox img {
+  /* Constrain to viewport while preserving aspect ratio */
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.6);
+    transform: translateZ(0);
+  }
+
+  .lightbox .lb-close {
+    /* fixed to viewport top-right so it sits outside the image */
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    background: color-mix(in oklab, var(--bg-elev), transparent 24%);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.4);
+    font-size: 20px;
+    line-height: 1;
+    z-index: 2100; /* above the lightbox content */
+  }
+  .lightbox .lb-close:active { transform: translateY(1px); }
+
+  @media (max-width: 480px) {
+  .lightbox .lb-close { width: 40px; height: 40px; font-size:18px; top: 12px; right: 12px }
+    .lightbox img { border-radius: 10px; }
+  }
+
     .hero-card { border:1px solid var(--border); background: var(--card); border-radius: var(--radius); padding: 1rem; display:grid; gap:.6rem }
     .hero-cards { display:grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
     @media (max-width: 960px) { .hero-cards{ grid-template-columns: 1fr } }
@@ -131,7 +222,7 @@
     section { padding: 4rem 0; }
     .section-head { display:flex; align-items:baseline; justify-content: space-between; margin-bottom: 1.5rem; gap:1rem; }
     .section-title { font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 800; }
-    .section-desc { color: var(--muted); max-width: 65ch }
+    .section-desc { color: var(--muted); max-width: 65ch; text-align:right; }
 
     /* ===== CARDS / GRID ===== */
     .grid { display:grid; gap: 1rem; }
@@ -159,6 +250,66 @@
     .t-item::before { content:""; position:absolute; left:6px; top:.5rem; width:12px; height:12px; border-radius:50%; background: linear-gradient(135deg, var(--primary), var(--primary-2)); box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary), transparent 80%); }
     .t-meta { font-size:.85rem; color: var(--muted); }
 
+    /* Collapsible timeline (preview + expand) */
+    .timeline-body {
+      position: relative; /* container for the bottom blur overlay */
+      overflow: hidden;
+      max-height: 360px; /* collapsed height showing a few items */
+      /* slower slide-down for a smoother reveal */
+      transition: max-height 1s cubic-bezier(.2,.9,.2,1), padding 1s ease;
+      padding-bottom: .6rem;
+    }
+    .timeline-body.expanded {
+      max-height: 2000px; /* large enough to show full content; animated via max-height */
+      padding-bottom: 1rem;
+    }
+   /* Show only the first two timeline items when collapsed. When .expanded is present,
+     all items become visible. This keeps layout stable and avoids relying on max-height alone. */
+   .timeline-body:not(.expanded) .t-item:nth-of-type(n+3) { display: none; }
+   .timeline-body.expanded .t-item { display: block; }
+    /* Removed timeline pseudo-element preview; use a glossy semi-transparent toggle button instead.
+       The button is frosted/blurred by default and becomes clearer when the timeline is expanded. */
+    /* Wrapper around the toggle: centered glossy semi-transparent panel */
+    .timeline-toggle-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.8rem;
+      position: relative;
+      z-index: 3;
+      /* panel effect behind the button: short, semi-transparent, glossy */
+      padding: 6px 12px;
+      border-radius: 12px;
+      margin-inline: auto;
+      width: max-content;
+      transition: background .28s ease, backdrop-filter .28s ease, box-shadow .28s ease;
+      background: color-mix(in oklab, var(--bg-elev), transparent 36%);
+      backdrop-filter: blur(6px) saturate(.95);
+      -webkit-backdrop-filter: blur(6px) saturate(.95);
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+      border: 1px solid color-mix(in oklab, var(--bg-elev), transparent 60%);
+    }
+
+    .timeline-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: .45rem .8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .timeline-toggle:hover { transform: translateY(-1px); }
+
+    /* When timeline expanded, make wrapper clearer (lighter tint, less blur) */
+    .timeline-body.expanded + .timeline-toggle-wrap {
+      background: color-mix(in oklab, var(--bg-elev), transparent 16%);
+      backdrop-filter: blur(2px) saturate(1);
+      -webkit-backdrop-filter: blur(2px) saturate(1);
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+
     /* ===== FOOTER ===== */
     footer { padding: 2rem 0 2rem; color: var(--muted); border-top: 1px solid var(--border) }
 
@@ -170,4 +321,119 @@
 
     @media (prefers-reduced-motion: reduce) {
       .btn:hover { transform:none }
+    }
+
+/* Reveal-on-scroll animations (enabled only on first visit) */
+html.do-animate .reveal {
+  opacity: 0;
+  transform: translateY(12px) scale(.995);
+  transition: opacity .6s cubic-bezier(.2,.9,.2,1), transform .6s cubic-bezier(.2,.9,.2,1);
+  will-change: opacity, transform;
+}
+html.do-animate .reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* small stagger helper when JS sets inline transition-delay */
+html.do-animate .reveal { transition-property: opacity, transform; }
+
+    /* ===== CERTIFICATION CAROUSEL ===== */
+    .cert-carousel {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .cert-nav {
+      background: color-mix(in oklab, var(--bg-elev), transparent 10%);
+      border: 1px solid var(--border);
+      width: 42px; height: 42px;
+      border-radius: 999px;
+      display: grid; place-items: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .cert-nav:hover { transform: translateY(-1px); }
+
+    .cert-viewport {
+      position: relative;
+      height: 300px;
+      perspective: 1000px;
+      border-radius: var(--radius);
+      overflow: hidden;                 /* hides the back half */
+      background:
+        radial-gradient(120% 100% at 50% 50%,
+          color-mix(in oklab, var(--bg-elev), transparent 0%),
+          color-mix(in oklab, var(--bg-elev), transparent 40%) 55%,
+          color-mix(in oklab, var(--bg), transparent 0%) 100%);
+    }
+  /* Allow vertical scrolling but let JS handle horizontal swipes */
+  .cert-viewport { touch-action: pan-y; cursor: grab }
+  .cert-viewport:active { cursor: grabbing }
+
+    .cert-track {
+      position: absolute; inset: 0;
+      margin: auto;
+      width: 200px; height: 240px;
+      transform-style: preserve-3d;
+      display: block;
+      transition: transform .6s cubic-bezier(.2,.9,.2,1);
+    }
+
+    .cert-card {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      margin: auto;
+      width: 180px; height: 220px;
+      padding: 1rem;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: grid; place-items: center;
+      text-align: center;
+      gap: .4rem;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transition: filter .35s ease, opacity .35s ease, transform .35s ease;
+    }
+
+    .cert-card[aria-disabled="true"] {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .cert-card img {
+      width: 84px; height: 84px;
+      object-fit: contain;
+    }
+    .cert-card p { font-weight: 800; }
+    .cert-card .muted { font-size: .88rem; }
+
+    /* Depth styling: non-front items are dimmed/blurred */
+    .cert-card { opacity: .35; filter: blur(6px) saturate(.8) brightness(.7); }
+    .cert-card.is-front { 
+      opacity: 1; 
+      filter: none !important; 
+      transform: translateZ(10px) scale(1.03);
+      z-index: 3;
+    }
+
+    /* Ring positions (6 items) — keep in sync with HTML count */
+    .cert-card:nth-child(1) { transform: rotateY(  0deg) translateZ(320px); }
+    .cert-card:nth-child(2) { transform: rotateY( 60deg) translateZ(320px); }
+    .cert-card:nth-child(3) { transform: rotateY(120deg) translateZ(320px); }
+    .cert-card:nth-child(4) { transform: rotateY(180deg) translateZ(320px); }
+    .cert-card:nth-child(5) { transform: rotateY(240deg) translateZ(320px); }
+    .cert-card:nth-child(6) { transform: rotateY(300deg) translateZ(320px); }
+
+    /* Responsive tweaks */
+    @media (max-width: 820px) {
+      .cert-viewport { height: 260px; }
+      .cert-track { width: 180px; height: 220px; }
+      .cert-card { width: 160px; height: 200px; }
     }
