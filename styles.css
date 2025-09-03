@@ -324,13 +324,15 @@
     }
 
 /* Reveal-on-scroll animations (enabled only on first visit) */
-html.do-animate .reveal {
+/* Reveal animation for most elements. Skip elements that manage their own transforms
+   (gallery items and cert-cards) to avoid visual conflicts. */
+html.do-animate .reveal:not(.g-item):not(.cert-card) {
   opacity: 0;
-  transform: translateY(12px) scale(.995);
-  transition: opacity .6s cubic-bezier(.2,.9,.2,1), transform .6s cubic-bezier(.2,.9,.2,1);
+  transform: translateY(18px) scale(.995);
+  transition: opacity .9s cubic-bezier(.16,.84,.24,1), transform .9s cubic-bezier(.16,.84,.24,1);
   will-change: opacity, transform;
 }
-html.do-animate .reveal.in-view {
+html.do-animate .reveal.in-view:not(.g-item):not(.cert-card) {
   opacity: 1;
   transform: none;
 }

@@ -106,6 +106,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   const items = Array.from(document.querySelectorAll('.reveal'));
   if(!items.length) return;
 
+  // use a small negative bottom rootMargin so elements near viewport bottom trigger
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
@@ -114,13 +115,18 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         io.unobserve(el);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.01, rootMargin: '0px 0px 12% 0px' });
 
-  // stagger small delays for visible ones
+  // stagger small delays for visible ones; if an element is already visible on load,
+  // mark it as in-view immediately so users don't need to overscroll.
   items.forEach((el, i) => {
-    // small per-item stagger
     el.style.transitionDelay = (i * 40) + 'ms';
-    io.observe(el);
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      el.classList.add('in-view');
+    } else {
+      io.observe(el);
+    }
   });
 })();
 
