@@ -194,23 +194,28 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   const lightbox = createLightbox();
   const lbImg = lightbox.querySelector('img');
   const lbClose = lightbox.querySelector('.lb-close');
+  let _savedScrollY = 0;
 
   function openLightbox(src, alt){
     lbImg.src = src;
     lbImg.alt = alt || '';
     lightbox.classList.add('show');
-    // prevent background scroll on mobile
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    lightbox.focus();
+  // preserve scroll position and prevent background scroll by fixing body
+  _savedScrollY = window.scrollY || window.pageYOffset || 0;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_savedScrollY}px`;
+  document.documentElement.style.overflow = 'hidden';
+  lightbox.focus();
   }
 
   function closeLightbox(){
     lightbox.classList.remove('show');
-    // restore scroll
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    lbImg.src = '';
+  // restore scroll position and remove fixed body
+  document.documentElement.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  window.scrollTo(0, _savedScrollY);
+  lbImg.src = '';
   }
 
   // attach click to images
