@@ -1,3 +1,14 @@
+// Prevent browsers from restoring previous scroll position on reload which
+// can cause a small visual 'jump' when the page finishes loading.
+try {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+} catch (e) { /* ignore */ }
+
+// Ensure no element is auto-focused on load which can also trigger a scroll jump.
+window.addEventListener('DOMContentLoaded', () => {
+  try { if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur(); } catch(e){}
+});
+
 // ===== THEME TOGGLE =====
 (function themeInit(){
   const saved = localStorage.getItem('theme');
