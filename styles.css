@@ -421,22 +421,22 @@ html.do-animate .reveal { transition-property: opacity, transform; }
     .cert-card p { font-weight: 800; }
     .cert-card .muted { font-size: .88rem; }
 
-    /* Depth styling: non-front items are dimmed/blurred */
-    .cert-card { opacity: .35; filter: blur(6px) saturate(.8) brightness(.7); }
-    .cert-card.is-front { 
-      opacity: 1; 
-      filter: none !important; 
+    /* Show only the front card; hide others completely to avoid distracting blurred sides */
+    .cert-card { opacity: 0; filter: none !important; }
+    .cert-card.is-front {
+      opacity: 1;
       transform: translateZ(10px) scale(1.03);
       z-index: 3;
     }
 
-    /* Ring positions (6 items) — keep in sync with HTML count */
-    .cert-card:nth-child(1) { transform: rotateY(  0deg) translateZ(320px); }
-    .cert-card:nth-child(2) { transform: rotateY( 60deg) translateZ(320px); }
-    .cert-card:nth-child(3) { transform: rotateY(120deg) translateZ(320px); }
-    .cert-card:nth-child(4) { transform: rotateY(180deg) translateZ(320px); }
-    .cert-card:nth-child(5) { transform: rotateY(240deg) translateZ(320px); }
-    .cert-card:nth-child(6) { transform: rotateY(300deg) translateZ(320px); }
+   /* Ring positions (5 items) — MUST match current number of .cert-card elements.
+     If you add/remove cards, either update these angles (360/N increments)
+     or switch to JS-generated transforms. */
+   .cert-card:nth-child(1) { transform: rotateY(  0deg) translateZ(320px); }
+   .cert-card:nth-child(2) { transform: rotateY( 72deg) translateZ(320px); }
+   .cert-card:nth-child(3) { transform: rotateY(144deg) translateZ(320px); }
+   .cert-card:nth-child(4) { transform: rotateY(216deg) translateZ(320px); }
+   .cert-card:nth-child(5) { transform: rotateY(288deg) translateZ(320px); }
 
     /* Responsive tweaks */
     @media (max-width: 820px) {
@@ -484,4 +484,10 @@ body:hover ::-webkit-scrollbar { width: 14px; }
 
 @media (prefers-reduced-motion: reduce) {
   html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb { transition: none; }
+}
+
+/* This one for the project images part */
+.project-img {
+  display: flex;
+  justify-content: center;
 }

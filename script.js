@@ -261,6 +261,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   const nextBtn = document.querySelector('.cert-next');
 
   const N = cards.length;
+  // Update ring positions dynamically so CSS hard-coded angles are optional fallback
+  const radiusZ = 320; // must match translateZ distance in CSS
+  cards.forEach((c, i) => {
+    c.style.transform = `rotateY(${(360 / N) * i}deg) translateZ(${radiusZ}px)`;
+  });
   const step = 360 / N;
   let idx = 0;
 
@@ -270,6 +275,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   function updateTransform() {
     track.style.transform = `translateZ(-120px) rotateY(${rotation}deg)`;
   }
+
+  const liveRegion = document.getElementById('certLive');
 
   function setFront() {
     // determine which card is at front from the cumulative rotation
@@ -284,6 +291,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     cards.forEach(c => c.classList.remove('is-front'));
     const front = cards[idx];
     front.classList.add('is-front');
+    if(liveRegion){
+      const title = front.getAttribute('data-title') || front.querySelector('p')?.textContent || 'Certification';
+      liveRegion.textContent = `Showing ${title}`;
+    }
 
     // Enable link only for the front; disable behind to avoid accidental clicks
     cards.forEach(c => {
@@ -356,7 +367,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     viewport.addEventListener('pointercancel', onCancel);
   })();
 
-  // Init
+  // Init (ensure initial front styling applied immediately)
   updateTransform();
   setFront();
 })();

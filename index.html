@@ -39,7 +39,7 @@
   </script>
 </head>
 <body>
-  <div style="position:absolute;" id="upmost"></div>
+  <div style="position:absolute; z-index:-9999;" id="upmost"></div>
   <!-- SPLASH / FAKE LOADING (only on first visit) -->
   <div id="splashOverlay" class="splash-overlay" aria-hidden="true">
     <div class="splash-inner" role="img" aria-label="Loading">
@@ -226,7 +226,9 @@
   <article class="card reveal">
           <h3>CompMed AR</h3>
           <p class="muted">An AR‑assisted learning app for visualizing <strong>REAL</strong> human anatomy models in 3D, built for medical students.</p>
-          <img src="gallery/1.jpg"></img>
+          <div class="project-img">
+            <img src="project_images/project1/#" alt="image.jpg" height="100px"></img>
+          </div>
           <div class="tags">
             <span class="tag">AR</span>
             <span class="tag">3D</span>
@@ -242,6 +244,9 @@
   <article class="card reveal">
           <h3>osTicket on AWS</h3>
           <p class="muted">A live demo of an open source ticketing system hosted in AWS using my own domain.</p>
+          <div class="project-img">
+            <iframe src="https://helpdesk.terryongkokdonq.xyz" height="100px" frameborder="0"></iframe>
+          </div>
           <div class="tags">
             <span class="tag">ITSM</span>
             <span class="tag">LDAP</span>
@@ -256,6 +261,9 @@
   <article class="card reveal">
           <h3>CARe - The Fastest Hospital</h3>
           <p class="muted">A proof-of-concept mobile app to find the fastest hospital.</p>
+          <div class="project-img">
+            <iframe src="https://bt-care.vercel.app/" height="100px" frameborder="0"></iframe>
+          </div>
           <div class="tags">
             <span class="tag">Python</span>
             <span class="tag">FastAPI</span>
@@ -280,6 +288,7 @@
       </div>
 
       <div class="cert-carousel">
+        <span id="certLive" class="sr-only" aria-live="polite"></span>
         <button class="cert-nav cert-prev" aria-label="Previous certification">‹</button>
 
         <div class="cert-viewport">
@@ -294,13 +303,7 @@
             <a class="cert-card" data-title="AZ-900" aria-disabled="true" href="#">
               <img src="cert_badges/ms_fundamentals.svg" alt="AZ-900 badge">
               <p>AZ-900</p>
-              <span class="muted">Coming soon</span>
-            </a>
-
-            <a class="cert-card" data-title="DP-900" aria-disabled="true" href="#">
-              <img src="cert_badges/ms_fundamentals.svg" alt="DP-900 badge">
-              <p>DP-900</p>
-              <span class="muted">Coming soon</span>
+              <span class="muted">Azure Fundamentals</span>
             </a>
 
             <a class="cert-card" data-title="PL-900" href="https://learn.microsoft.com/api/credentials/share/en-us/terryong/68AA749E70800328?sharingId=534F1CCAD4F7A268" target="_blank" rel="noopener">
@@ -309,15 +312,15 @@
               <span class="muted">Power Platform Fundamentals</span>
             </a>
 
-            <a class="cert-card" data-title="AZ-104" aria-disabled="true" href="#">
-              <img src="cert_badges/ms_associate.svg" alt="AZ-104 badge">
-              <p>AZ-104</p>
+            <a class="cert-card" data-title="SC-900" aria-disabled="true" href="#">
+              <img src="cert_badges/ms_fundamentals.svg" alt="SC-900 badge">
+              <p>SC-900</p>
               <span class="muted">Coming soon</span>
             </a>
 
-            <a class="cert-card" data-title="AI-102" aria-disabled="true" href="#">
-              <img src="cert_badges/ms_associate.svg" alt="AI-102 badge">
-              <p>AI-102</p>
+            <a class="cert-card" data-title="AZ-104" aria-disabled="true" href="#">
+              <img src="cert_badges/ms_associate.svg" alt="AZ-104 badge">
+              <p>AZ-104</p>
               <span class="muted">Coming soon</span>
             </a>
           </div>
