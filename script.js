@@ -587,9 +587,7 @@ function initProjectShowcase() {
       indicator.classList.toggle('active', i === index);
     });
 
-    // Update nav buttons
-    if (prevBtn) prevBtn.disabled = index === 0;
-    if (nextBtn) nextBtn.disabled = index === slides.length - 1;
+    // Buttons are always enabled for endless loop navigation
 
     currentSlide = index;
   }
@@ -597,12 +595,16 @@ function initProjectShowcase() {
   function nextSlide() {
     if (currentSlide < slides.length - 1) {
       updateSlide(currentSlide + 1);
+    } else {
+      updateSlide(0); // Loop back to first project
     }
   }
 
   function prevSlide() {
     if (currentSlide > 0) {
       updateSlide(currentSlide - 1);
+    } else {
+      updateSlide(slides.length - 1); // Loop back to last project
     }
   }
 
@@ -810,9 +812,9 @@ function initProjectShowcase() {
   createAIParticles();
   
   // Start autoplay after a short delay
-  setTimeout(() => {
-    if (isPlaying) startAutoPlay();
-  }, 1000);
+  // setTimeout(() => {
+  //   if (isPlaying) startAutoPlay();
+  // }, 1000);
 
   // Global functions for external access
   window.prevProject = prevSlide;
