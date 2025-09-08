@@ -72,15 +72,108 @@ sections.forEach(s => io.observe(s));
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Enhanced smooth scroll with fixed nav offset
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offsetTop = target.offsetTop - 80; // Account for fixed nav height
+          window.scrollTo({
+            top: offsetTop,
             behavior: 'smooth'
-        });
+          });
+        }
     });
 });
+
+// Add scroll-based nav styling and hero effects
+let lastScrollY = window.scrollY;
+const nav = document.querySelector('.nav');
+const hero = document.querySelector('.hero');
+const heroBackground = document.querySelector('.hero-background');
+const scrollIndicator = document.querySelector('.scroll-indicator');
+
+function handleNavScroll() {
+  const currentScrollY = window.scrollY;
+  const heroHeight = hero ? hero.offsetHeight : 0;
+  const scrollProgress = Math.min(currentScrollY / heroHeight, 1);
+  
+  // Enhanced navigation styling
+  if (currentScrollY > 100) {
+    nav.style.background = 'color-mix(in oklab, var(--bg), transparent 10%)';
+    nav.style.backdropFilter = 'blur(20px)';
+  } else {
+    nav.style.background = 'color-mix(in oklab, var(--bg), transparent 20%)';
+    nav.style.backdropFilter = 'blur(16px)';
+  }
+  
+  // Hero background parallax and fade effects
+  if (heroBackground) {
+    const parallaxOffset = currentScrollY * 0.5;
+    heroBackground.style.transform = `translateY(${parallaxOffset}px)`;
+    heroBackground.style.opacity = Math.max(0.1, 1 - scrollProgress);
+  }
+  
+  // Hide scroll indicator when scrolling
+  if (scrollIndicator) {
+    scrollIndicator.style.opacity = Math.max(0, 1 - scrollProgress * 3);
+  }
+  
+  // Add scrolled class to hero for CSS transitions
+  if (hero) {
+    if (scrollProgress > 0.1) {
+      hero.classList.add('scrolled');
+    } else {
+      hero.classList.remove('scrolled');
+    }
+  }
+  
+  lastScrollY = currentScrollY;
+}
+
+// Initialize enhanced 3D hero animations
+function initHero3D() {
+  const particles = document.querySelectorAll('.particle-cube');
+  const glowOrbs = document.querySelectorAll('.glow-orb');
+  
+  // Add random animation delays and positions
+  particles.forEach((particle, index) => {
+    const randomDelay = Math.random() * 6;
+    const randomDuration = 6 + Math.random() * 6;
+    particle.style.animationDelay = `-${randomDelay}s`;
+    particle.style.animationDuration = `${randomDuration}s`;
+  });
+  
+  // Mouse parallax effect for desktop
+  if (window.innerWidth > 960) {
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = (e.clientX / window.innerWidth) - 0.5;
+      const mouseY = (e.clientY / window.innerHeight) - 0.5;
+      
+      particles.forEach((particle, index) => {
+        const speed = (index % 3 + 1) * 0.5;
+        const x = mouseX * speed * 20;
+        const y = mouseY * speed * 20;
+        particle.style.transform = `translate(${x}px, ${y}px) rotateX(${y}deg) rotateY(${x}deg)`;
+      });
+      
+      glowOrbs.forEach((orb, index) => {
+        const speed = (index % 2 + 1) * 0.3;
+        const x = mouseX * speed * 30;
+        const y = mouseY * speed * 30;
+        orb.style.transform = `translate(${x}px, ${y}px) scale(${1 + Math.abs(mouseX + mouseY) * 0.1})`;
+      });
+    });
+  }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  initHero3D();
+});
+
+window.addEventListener('scroll', handleNavScroll, { passive: true });
 
 // ===== SPLASH / FAKE LOADING (first visit only) =====
 (function splashInit(){
@@ -309,6 +402,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     setFront();
   }
 
+  // Make cards clickable even inside drag area:
+  // - Click front card => open link (new tab)
+  // - Click non-front enabled card => rotate it to front then open
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      const disabled = card.getAttribute('aria-disabled') === 'true';
+      const href = card.getAttribute('href');
+      if(disabled || !href) { e.preventDefault(); return; }
+
+      // If not front yet, rotate shortest path to it first
+      if(!card.classList.contains('is-front')){
+        e.preventDefault();
+        const targetIdx = cards.indexOf(card);
+        // distance forward (positive) in ring
+        let diff = (targetIdx - idx) % N;
+        if(diff < 0) diff += N;
+        // choose shortest direction
+        if(diff > N/2) diff = diff - N; // go negative instead
+        go(diff);
+        // After rotation completes (CSS transition ~600ms), open link
+        if(href !== '#') setTimeout(()=> { window.open(href, '_blank', 'noopener'); }, 620);
+        return;
+      }
+
+      // Front card: ensure new tab & prevent drag logic from hijacking
+      if(href === '#') { e.preventDefault(); return; }
+      card.setAttribute('target','_blank');
+      if(!card.getAttribute('rel')) card.setAttribute('rel','noopener');
+      // let default proceed (new tab because of target)
+    });
+  });
+
   prevBtn?.addEventListener('click', () => go(-1));
   nextBtn?.addEventListener('click', () => go(1));
 
@@ -325,6 +450,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
     function onDown(e){
       if(e.pointerType === 'mouse' && e.button !== 0) return;
+  // If initiating on a front, enabled cert card, let click/open happen instead of drag
+  const card = e.target.closest('.cert-card');
+  if(card && card.classList.contains('is-front') && card.getAttribute('aria-disabled') !== 'true') return;
       startX = e.clientX; startY = e.clientY; tracking = true; pointerId = e.pointerId;
       try{ viewport.setPointerCapture(pointerId); } catch(_){}
       // disable transition for immediate drag feedback
@@ -371,6 +499,340 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   updateTransform();
   setFront();
 })();
+
+// ===== PROJECTS SHOWCASE =====
+function initProjectShowcase() {
+  const showcase = document.querySelector('.project-showcase');
+  if (!showcase) return;
+
+  const slides = showcase.querySelectorAll('.project-slide');
+  const indicators = showcase.querySelectorAll('.indicator');
+  const prevBtn = showcase.querySelector('.prev-btn');
+  const nextBtn = showcase.querySelector('.next-btn');
+  
+  let currentSlide = 0;
+  let autoPlayInterval;
+  let isPlaying = true;
+  let hoverTimeout;
+  let isHovering = false;
+
+  // AR Scene rotation for CompMed AR
+  function initARScene() {
+    const arImages = [
+      'project_images/project1/1.jpg',
+      'project_images/project1/2.png', 
+      'project_images/project1/3.jpg'
+    ];
+    
+    let arIndex = 0;
+    const arContainer = document.querySelector('.ar-scene');
+    if (!arContainer) return;
+
+    // Create AR image elements
+    arImages.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = `ar-image ${index === 0 ? 'active' : ''}`;
+      img.alt = `AR Medical Visualization ${index + 1}`;
+      arContainer.appendChild(img);
+    });
+
+    // Auto-rotate AR images
+    setInterval(() => {
+      const images = arContainer.querySelectorAll('.ar-image');
+      if (images.length > 0) {
+        images[arIndex].classList.remove('active');
+        arIndex = (arIndex + 1) % images.length;
+        images[arIndex].classList.add('active');
+      }
+    }, 3000);
+  }
+
+  // AI particles animation
+  function createAIParticles() {
+    const aiOverlay = document.querySelector('.ai-overlay');
+    if (!aiOverlay) return;
+
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'ai-particles';
+    
+    for (let i = 0; i < 6; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 4 + 's';
+      particlesContainer.appendChild(particle);
+    }
+    
+    aiOverlay.appendChild(particlesContainer);
+  }
+
+  function updateSlide(index) {
+    // Ensure index is within bounds
+    index = Math.max(0, Math.min(index, slides.length - 1));
+    
+    // Remove active/prev classes
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active', 'prev');
+      if (i < index) {
+        slide.classList.add('prev');
+      } else if (i === index) {
+        slide.classList.add('active');
+      }
+    });
+
+    // Update indicators
+    indicators.forEach((indicator, i) => {
+      indicator.classList.toggle('active', i === index);
+    });
+
+    // Update nav buttons
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === slides.length - 1;
+
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+      updateSlide(currentSlide + 1);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      updateSlide(currentSlide - 1);
+    }
+  }
+
+  function goToSlide(index) {
+    updateSlide(index);
+  }
+
+  function startAutoPlay() {
+    if (!isPlaying || isHovering) return;
+    stopAutoPlay(); // Clear any existing interval
+    autoPlayInterval = setInterval(() => {
+      if (!isHovering && currentSlide < slides.length - 1) {
+        nextSlide();
+      } else if (!isHovering) {
+        updateSlide(0); // Loop back to first
+      }
+    }, 6000);
+  }
+
+  function stopAutoPlay() {
+    if (autoPlayInterval) {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+    }
+  }
+
+  function handleMouseEnter() {
+    isHovering = true;
+    stopAutoPlay();
+    
+    // Clear any existing timeout
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+  }
+
+  function handleMouseLeave() {
+    isHovering = false;
+    
+    // Clear any existing timeout
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+    }
+    
+    // Wait 4 seconds before resuming autoplay
+    hoverTimeout = setTimeout(() => {
+      if (!isHovering && isPlaying) {
+        startAutoPlay();
+      }
+    }, 4000);
+  }
+
+  // Navigation event listeners
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      stopAutoPlay();
+      prevSlide();
+      setTimeout(startAutoPlay, 3000);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      stopAutoPlay();
+      nextSlide();
+      setTimeout(startAutoPlay, 3000);
+    });
+  }
+
+  // Indicator clicks with data-slide attribute
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', (e) => {
+      e.preventDefault();
+      stopAutoPlay();
+      const slideIndex = indicator.getAttribute('data-slide');
+      if (slideIndex !== null) {
+        updateSlide(parseInt(slideIndex));
+      } else {
+        updateSlide(index);
+      }
+      setTimeout(startAutoPlay, 3000);
+    });
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const showcaseRect = showcase.getBoundingClientRect();
+    const isVisible = showcaseRect.top < window.innerHeight && showcaseRect.bottom > 0;
+    
+    if (!isVisible) return;
+    
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      stopAutoPlay();
+      prevSlide();
+      setTimeout(startAutoPlay, 3000);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      stopAutoPlay();
+      nextSlide();
+      setTimeout(startAutoPlay, 3000);
+    } else if (e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      if (isPlaying) {
+        stopAutoPlay();
+        isPlaying = false;
+      } else {
+        isPlaying = true;
+        startAutoPlay();
+      }
+    }
+  });
+
+  // Touch/swipe support
+  let startX = null;
+  let startY = null;
+  let isDragging = false;
+
+  showcase.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isDragging = true;
+  }, { passive: true });
+
+  showcase.addEventListener('touchmove', (e) => {
+    if (!isDragging || !startX || !startY) return;
+    
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    
+    const diffX = startX - currentX;
+    const diffY = startY - currentY;
+    
+    // Only handle horizontal swipes
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  showcase.addEventListener('touchend', (e) => {
+    if (!isDragging || !startX || !startY) return;
+    
+    const currentX = e.changedTouches[0].clientX;
+    const diffX = startX - currentX;
+    
+    if (Math.abs(diffX) > 50) { // Minimum swipe distance
+      stopAutoPlay();
+      if (diffX > 0 && currentSlide < slides.length - 1) {
+        nextSlide();
+      } else if (diffX < 0 && currentSlide > 0) {
+        prevSlide();
+      }
+      setTimeout(startAutoPlay, 3000);
+    }
+    
+    startX = null;
+    startY = null;
+    isDragging = false;
+  }, { passive: true });
+
+  // Pause autoplay on hover (desktop and tablet)
+  if (window.innerWidth > 768) {
+    showcase.addEventListener('mouseenter', handleMouseEnter);
+    showcase.addEventListener('mouseleave', handleMouseLeave);
+  }
+
+  // Handle window resize for responsive behavior
+  window.addEventListener('resize', () => {
+    // Re-evaluate hover behavior based on new screen size
+    const newWidth = window.innerWidth;
+    if (newWidth > 768 && !showcase.dataset.hoverListeners) {
+      showcase.addEventListener('mouseenter', handleMouseEnter);
+      showcase.addEventListener('mouseleave', handleMouseLeave);
+      showcase.dataset.hoverListeners = 'true';
+    } else if (newWidth <= 768 && showcase.dataset.hoverListeners) {
+      showcase.removeEventListener('mouseenter', handleMouseEnter);
+      showcase.removeEventListener('mouseleave', handleMouseLeave);
+      delete showcase.dataset.hoverListeners;
+      // Resume autoplay on mobile if paused
+      if (isPlaying && !autoPlayInterval) {
+        startAutoPlay();
+      }
+    }
+  });
+
+  // Intersection Observer for performance
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && isPlaying) {
+        startAutoPlay();
+      } else {
+        stopAutoPlay();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(showcase);
+
+  // Initialize everything
+  updateSlide(0);
+  initARScene();
+  createAIParticles();
+  
+  // Start autoplay after a short delay
+  setTimeout(() => {
+    if (isPlaying) startAutoPlay();
+  }, 1000);
+
+  // Global functions for external access
+  window.prevProject = prevSlide;
+  window.nextProject = nextSlide;
+  window.goToProject = goToSlide;
+  
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    stopAutoPlay();
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    if (observer) observer.disconnect();
+  });
+}
+
+// Initialize the showcase when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initProjectShowcase);
+} else {
+  initProjectShowcase();
+}
 
 // ===== TIMELINE COLLAPSE/EXPAND =====
 (function timelineToggleInit(){

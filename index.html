@@ -57,10 +57,10 @@
       <button class="btn btn-ghost menu" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation">☰</button>
       <div class="nav-actions">
         <div class="nav-links" id="navLinks">
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
           <a href="#certifications">Certs</a>
           <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#experience">Experience</a>
           <a href="#contact">Contact</a>
         </div>
         <button class="btn btn-ghost" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
@@ -73,26 +73,89 @@
 
   <!-- ===== HERO ===== -->
   <header id="home" class="hero reveal">
+    <!-- 3D Background -->
+    <div class="hero-background">
+      <div class="hero-particles">
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+        <div class="particle-cube"></div>
+      </div>
+      <div class="hero-grid-bg">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+      </div>
+      <div class="hero-glow">
+        <div class="glow-orb glow-1"></div>
+        <div class="glow-orb glow-2"></div>
+        <div class="glow-orb glow-3"></div>
+      </div>
+    </div>
+    
     <div class="container hero-grid">
-      <div>
+      <div class="hero-content">
         <p class="kicker">Hello, I'm</p>
         <h1 class="headline"> <span class="grad">Terry Ong</span> — ITOps Generalist</h1>
         <p class="sub">A computer science graduate with experience in IT infrastructure and a background in dev, cybersecurity, cloud and AI.</p>
         <p class="sub"> Outside of tech, I’m a person who enjoys competition, a performing musician and gamer.</p>
         <div class="cta-row">
-          <a class="btn" href="documents/Ong_Kok_Donq_Resume.pdf" download>Download Resume</a>
+          <a class="btn hero-cta" href="documents/Ong_Kok_Donq_Resume.pdf" download>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            Download Resume
+          </a>
+          <a class="btn btn-ghost hero-cta-secondary" href="#projects">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            View Projects
+          </a>
         </div>
       </div>
-      <div class="hero-cards">
-        <div class="hero-card">
-          <span class="muted">Current Focus</span>
-          <strong>Cloud, Sysadmin, Software Development</strong>
+      <div class="hero-visual">
+        <div class="hero-cards">
+          <div class="hero-card">
+            <span class="muted">Current Focus</span>
+            <strong>Cloud, Sysadmin, Software Development</strong>
+          </div>
+          <div class="hero-card">
+            <span class="muted">Open for</span>
+            <strong>Internships & junior developer roles.</strong>
+          </div>
         </div>
-        <div class="hero-card">
-          <span class="muted">Open for</span>
-          <strong>Internships & junior developer roles.</strong>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Dedication</div>
+          </div>
         </div>
       </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+        </svg>
+      </div>
+      <span>Scroll to explore</span>
     </div>
   </header>
 
@@ -219,62 +282,249 @@
   <section id="projects" class="reveal">
     <div class="container">
       <div class="section-head">
-        <h2 class="section-title">Projects</h2>
-        <p class="section-desc">These are a few notable projects that I have done throughout my IT career.</p>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-desc">Showcasing my most impactful work across different technologies.</p>
       </div>
-      <div class="grid grid-3">
-  <article class="card reveal">
-          <h3>CompMed AR</h3>
-          <p class="muted">An AR‑assisted learning app for visualizing <strong>REAL</strong> human anatomy models in 3D, built for medical students.</p>
-          <div class="project-img">
-            <img src="project_images/project1/#" alt="image.jpg" height="100px"></img>
+      
+      <div class="project-showcase">
+        <div class="project-slider">
+          
+          <!-- Project 1: CompMed AR -->
+          <div class="project-slide active" data-bg="#1a0d2e">
+            <div class="project-container">
+              <div class="project-hero">
+                <div class="project-number">01</div>
+                <div class="project-badge">Mobile App</div>
+                <h3 class="project-title">CompMed AR</h3>
+                <p class="project-subtitle">AR-Powered Medical Learning</p>
+                <p class="project-description">
+                  Revolutionary AR application that brings human anatomy to life in 3D. 
+                  Built for medical students to visualize and interact with REAL anatomical models 
+                  through augmented reality technology.
+                </p>
+                <div class="project-tech">
+                  <span class="tech-tag">Unity AR</span>
+                  <span class="tech-tag">C#</span>
+                  <span class="tech-tag">3D Modeling</span>
+                  <span class="tech-tag">Mobile</span>
+                </div>
+                <div class="project-actions">
+                  <a href="app/CompMed AR.apk" class="btn-primary" download>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    Download App
+                  </a>
+                  <a href="https://github.com/terryong31/compmed-ar" target="_blank" class="btn-secondary">
+                    View Code
+                  </a>
+                </div>
+              </div>
+              <div class="project-visual">
+                <div class="mobile-mockup">
+                  <div class="mobile-device">
+                    <div class="mobile-notch"></div>
+                    <div class="mobile-content">
+                      <div class="ar-scene">
+                        <img src="project_images/project1/1.jpg" alt="CompMed AR Interface" class="ar-image active">
+                        <img src="project_images/project1/2.jpg" alt="AR Anatomy Model" class="ar-image">
+                        <img src="project_images/project1/3.jpg" alt="3D Interaction" class="ar-image">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="floating-elements">
+                    <div class="float-icon">🫀</div>
+                    <div class="float-icon">🧠</div>
+                    <div class="float-icon">🦴</div>
+                  </div>
+                </div>
+                
+                <!-- Mobile Live View Alternative -->
+                <div class="mobile-live-view">
+                  <div class="preview-icon">📱</div>
+                  <h4>AR Medical Visualization</h4>
+                  <p>Interactive mobile app preview</p>
+                  <a href="project_images/project1/1.jpg" target="_blank" class="mobile-live-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    View Gallery
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="tags">
-            <span class="tag">AR</span>
-            <span class="tag">3D</span>
-            <span class="tag">Mobile</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" target="_blank" href="app/CompMed AR.apk" aria-label="Open source code">Download App</a>
-            <a class="btn btn-ghost" target="_blank" href="https://github.com/terryong31/compmed-ar" aria-label="Open source code">Code</a>
-          </div>
-        </article>
 
-  <article class="card reveal">
-          <h3>osTicket on AWS</h3>
-          <p class="muted">A live demo of an open source ticketing system hosted in AWS using my own domain.</p>
-          <div class="project-img">
-            <iframe src="https://helpdesk.terryongkokdonq.xyz" height="100px" frameborder="0"></iframe>
+          <!-- Project 2: osTicket -->
+          <div class="project-slide" data-bg="#0f1419">
+            <div class="project-container">
+              <div class="project-hero">
+                <div class="project-number">02</div>
+                <div class="project-badge">Web Platform</div>
+                <h3 class="project-title">osTicket on AWS</h3>
+                <p class="project-subtitle">Enterprise Ticketing System</p>
+                <p class="project-description">
+                  Production-ready IT service management platform deployed on AWS infrastructure. 
+                  Features LDAP integration, automated workflows, and enterprise-grade security 
+                  for streamlined support operations.
+                </p>
+                <div class="project-tech">
+                  <span class="tech-tag">AWS</span>
+                  <span class="tech-tag">PHP</span>
+                  <span class="tech-tag">MySQL</span>
+                  <span class="tech-tag">LDAP</span>
+                </div>
+                <div class="project-actions">
+                  <a href="https://helpdesk.terryongkokdonq.xyz/" target="_blank" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zm-2 16H5V12l4-4h3v2h-2l-3 3v5h5v-3h2v5z"/>
+                    </svg>
+                    Live Demo
+                  </a>
+                  <a href="https://github.com/osTicket/osTicket" target="_blank" class="btn-secondary">
+                    Documentation
+                  </a>
+                </div>
+              </div>
+              <div class="project-visual">
+                <div class="browser-mockup">
+                  <div class="browser-window">
+                    <div class="browser-header">
+                      <div class="browser-controls">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="browser-url">helpdesk.terryongkokdonq.xyz</div>
+                    </div>
+                    <div class="browser-content">
+                      <div class="connection-placeholder">
+                        <div class="placeholder-content">
+                          <div class="placeholder-icon">🔒</div>
+                          <h4>Secure Enterprise System</h4>
+                          <p>Live demo available via direct link</p>
+                          <a href="https://helpdesk.terryongkokdonq.xyz/" target="_blank" class="placeholder-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                            Access System
+                          </a>
+                        </div>
+                      </div>
+                      <div class="browser-overlay">
+                        <div class="live-indicator">
+                          <div class="pulse"></div>
+                          LIVE
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Mobile Live View Alternative -->
+                <div class="mobile-live-view">
+                  <div class="preview-icon">💻</div>
+                  <h4>Enterprise Ticketing System</h4>
+                  <p>Live web application</p>
+                  <a href="https://helpdesk.terryongkokdonq.xyz/" target="_blank" class="mobile-live-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                    </svg>
+                    Visit Live Site
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="tags">
-            <span class="tag">ITSM</span>
-            <span class="tag">LDAP</span>
-            <span class="tag">Automation</span>
-          </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" target="_blank" href="https://helpdesk.terryongkokdonq.xyz/">Live</a>
-          </div>
-        </article>
 
-  <article class="card reveal">
-          <h3>CARe - The Fastest Hospital</h3>
-          <p class="muted">A proof-of-concept mobile app to find the fastest hospital.</p>
-          <div class="project-img">
-            <iframe src="https://bt-care.vercel.app/" height="100px" frameborder="0"></iframe>
+          <!-- Project 3: CARe -->
+          <div class="project-slide" data-bg="#1a3a4a">
+            <div class="project-container">
+              <div class="project-hero">
+                <div class="project-number">03</div>
+                <div class="project-badge">AI-Powered</div>
+                <h3 class="project-title">CARe</h3>
+                <p class="project-subtitle">Smart Hospital Finder</p>
+                <p class="project-description">
+                  Award-winning AI application that revolutionizes emergency healthcare by 
+                  finding the fastest route to hospitals using computer vision and real-time 
+                  traffic analysis. Winner of ASEAN AI Summit Buildathon 2025.
+                </p>
+                <div class="project-tech">
+                  <span class="tech-tag">Python</span>
+                  <span class="tech-tag">FastAPI</span>
+                  <span class="tech-tag">Computer Vision</span>
+                  <span class="tech-tag">AI/ML</span>
+                </div>
+                <div class="project-actions">
+                  <a href="https://bt-care.vercel.app/" target="_blank" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zm-2 16H5V12l4-4h3v2h-2l-3 3v5h5v-3h2v5z"/>
+                    </svg>
+                    Try Demo
+                  </a>
+                  <a href="https://github.com/toorcn/asean-ai-summit-buildathon" target="_blank" class="btn-secondary">
+                    Source Code
+                  </a>
+                </div>
+              </div>
+              <div class="project-visual">
+                <div class="mobile-mockup">
+                  <div class="mobile-device ai-theme">
+                    <div class="mobile-content">
+                      <iframe src="https://bt-care.vercel.app/" frameborder="0"></iframe>
+                      <div class="ai-overlay">
+                        <div class="ai-particles">
+                          <div class="particle"></div>
+                          <div class="particle"></div>
+                          <div class="particle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="award-badge">
+                    <div class="badge-icon">🏆</div>
+                    <div class="badge-text">Winner<br>Youth Category</div>
+                  </div>
+                </div>
+                
+                <!-- Mobile Live View Alternative -->
+                <div class="mobile-live-view">
+                  <div class="preview-icon">🤖</div>
+                  <h4>AI Healthcare Assistant</h4>
+                  <p>Interactive web application</p>
+                  <a href="https://bt-care.vercel.app/" target="_blank" class="mobile-live-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                    </svg>
+                    Try Live Demo
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">FastAPI</span>
-            <span class="tag">CV</span>
+
+        </div>
+        
+        <!-- Navigation -->
+        <div class="project-nav">
+          <button class="nav-btn prev-btn" aria-label="Previous project">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <div class="project-indicators">
+            <button class="indicator active" data-slide="0"></button>
+            <button class="indicator" data-slide="1"></button>
+            <button class="indicator" data-slide="2"></button>
           </div>
-          <div class="spacer"></div>
-          <div style="display:flex; gap:.6rem; flex-wrap:wrap">
-            <a class="btn btn-ghost" target="_blank" href="https://bt-care.vercel.app/">Live</a>
-            <a class="btn btn-ghost" target="_blank" href="https://github.com/toorcn/asean-ai-summit-buildathon">Code</a>
-          </div>
-        </article>
+          <button class="nav-btn next-btn" aria-label="Next project">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+            </svg>
+          </button>
+        </div>
+        
       </div>
     </div>
   </section>
