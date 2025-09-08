@@ -972,7 +972,7 @@
     .mobile-content {
       width: 100%;
       height: 100%;
-      background: #000;
+      background: transparent;
       border-radius: 16px;
       overflow: hidden;
       position: relative;
@@ -984,58 +984,6 @@
       position: relative;
     }
 
-    .ar-preview {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .ar-heart, .ar-brain, .ar-bone {
-      font-size: 2rem;
-      position: absolute;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .ar-heart {
-      top: 20%;
-      left: 20%;
-      animation-delay: 0s;
-    }
-
-    .ar-brain {
-      top: 30%;
-      right: 20%;
-      animation-delay: 1s;
-    }
-
-    .ar-bone {
-      bottom: 30%;
-      left: 30%;
-      animation-delay: 2s;
-    }
-
-    .ar-text {
-      color: white;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-align: center;
-      background: rgba(255,255,255,0.1);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
     .ar-image {
       position: absolute;
       inset: 0;
@@ -1044,6 +992,7 @@
       object-fit: cover;
       opacity: 0;
       transition: opacity 1s ease;
+      border-radius: 20px;
     }
 
     .ar-image.active {
