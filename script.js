@@ -521,7 +521,8 @@ function initProjectShowcase() {
     const arImages = [
       'project_images/project1/1.jpg',
       'project_images/project1/2.png', 
-      'project_images/project1/3.jpg'
+      'project_images/project1/3.jpg',
+      'project_images/project1/4.jpg'
     ];
     
     let arIndex = 0;
@@ -533,7 +534,6 @@ function initProjectShowcase() {
       const img = document.createElement('img');
       img.src = src;
       img.className = `ar-image ${index === 0 ? 'active' : ''}`;
-      img.alt = `AR Medical Visualization ${index + 1}`;
       arContainer.appendChild(img);
     });
 
@@ -956,4 +956,59 @@ if (document.readyState === 'loading') {
     clearTimeout(window._timelineResize);
     window._timelineResize = setTimeout(() => checkOverflow(), 160);
   });
+})();
+
+// ===== PROJECT AR IMAGE SAFETY FILTER =====
+// In case the CompMed AR showcase includes a bad/blank frame (e.g., missing file),
+// remove it from rotation so users never see a black slide.
+(function filterBrokenARImages(){
+  function run(){
+    const ar = document.querySelector('.ar-scene');
+    if(!ar) return; // no AR scene on page
+    const imgs = Array.from(ar.querySelectorAll('img, .ar-image'));
+    if(!imgs.length) return;
+
+    imgs.forEach(imgEl => {
+      // Support elements created as <img> or as styled .ar-image divs
+      if(imgEl.tagName === 'IMG'){
+        // Remove known bad path if present
+        try{
+          const src = imgEl.getAttribute('src') || '';
+          if(/project_images\/project1\/2\.(png|jpg|jpeg|webp)$/i.test(src)){
+            imgEl.remove();
+            return;
+          }
+        }catch(_){/* ignore */}
+
+        // If the image failed to load or is effectively empty, remove it
+        if(imgEl.complete){
+          if(imgEl.naturalWidth === 0 || imgEl.naturalHeight === 0){
+            imgEl.remove();
+            return;
+          }
+        } else {
+          imgEl.addEventListener('error', () => {
+            try{ imgEl.remove(); }catch(_){/* ignore */}
+          }, { once: true });
+        }
+      } else {
+        // Non-img (likely .ar-image with background). Remove if it has no background-image.
+        try{
+          const cs = getComputedStyle(imgEl);
+          const bg = cs.backgroundImage || 'none';
+          if(!bg || bg === 'none' || /url\(["']?\s*["']?\)/i.test(bg)){
+            imgEl.remove();
+            return;
+          }
+        }catch(_){/* ignore */}
+      }
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    // defer a tick to allow any dynamic nodes to be injected first
+    setTimeout(run, 0);
+  }
 })();
