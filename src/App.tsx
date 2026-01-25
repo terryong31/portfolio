@@ -140,7 +140,7 @@ function App() {
               />
 
               <div className="ml-2">
-                <a href="/src/assets/resume.pdf" download="Terry_Ong_Resume.pdf" className="inline-block group">
+                <a href="/resume.pdf" download="Terry_Ong_Resume.pdf" className="inline-block group">
                   <GlassSurface
                     width={180}
                     height={50}
