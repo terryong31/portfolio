@@ -134,6 +134,7 @@ const Threads: React.FC<ThreadsProps> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const animationFrameId = useRef<number>(0);
+    const isVisibleRef = useRef<boolean>(false);
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -207,10 +208,38 @@ const Threads: React.FC<ThreadsProps> = ({
             renderer.render({ scene: mesh });
             animationFrameId.current = requestAnimationFrame(update);
         }
-        animationFrameId.current = requestAnimationFrame(update);
+
+        // Start/stop animation based on visibility
+        const startAnimation = () => {
+            if (!animationFrameId.current) {
+                animationFrameId.current = requestAnimationFrame(update);
+            }
+        };
+
+        const stopAnimation = () => {
+            if (animationFrameId.current) {
+                cancelAnimationFrame(animationFrameId.current);
+                animationFrameId.current = 0;
+            }
+        };
+
+        // Visibility observer to start/stop animation
+        const visibilityObserver = new IntersectionObserver(
+            ([entry]) => {
+                isVisibleRef.current = entry.isIntersecting;
+                if (entry.isIntersecting) {
+                    startAnimation();
+                } else {
+                    stopAnimation();
+                }
+            },
+            { threshold: 0 }
+        );
+        visibilityObserver.observe(container);
 
         return () => {
-            if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+            visibilityObserver.disconnect();
+            stopAnimation();
             window.removeEventListener('resize', resize);
 
             if (enableMouseInteraction) {

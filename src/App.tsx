@@ -1,5 +1,4 @@
-
-import Beams from './Beams';
+import { Suspense, lazy } from 'react';
 import { motion } from 'motion/react';
 import Shuffle from './Shuffle';
 import MagicBento from './MagicBento';
@@ -7,14 +6,17 @@ import LogoLoop from './LogoLoop';
 import { SiReact, SiTypescript, SiTailwindcss, SiPython, SiLangchain, SiAmazonwebservices, SiRedis, SiSupabase, SiDocker, SiMysql, SiUbuntu, SiGithub, SiLinkedin, SiInstagram } from 'react-icons/si';
 import ClickSpark from './ClickSpark'; // re-trigger
 import ShinyText from './ShinyText';
-import { TimelineDemo } from './TimelineDemo';
 import { DitherShader } from "@/components/ui/dither-shader";
 import asdImg from './assets/asd.png';
-import Threads from './Threads';
-import { ContactForm } from './components/ContactForm'; // Explicit import to resolve resolution issue
 import GlassSurface from './components/GlassSurface';
 
 import ScrollIndicator from './ScrollIndicator';
+
+// Lazy load heavy components for better performance
+const Beams = lazy(() => import('./Beams'));
+const TimelineDemo = lazy(() => import('./TimelineDemo').then(module => ({ default: module.TimelineDemo })));
+const Threads = lazy(() => import('./Threads'));
+const ContactForm = lazy(() => import('./components/ContactForm').then(module => ({ default: module.ContactForm })));
 
 const techLogos = [
   { node: <SiReact />, title: "React", href: "https://react.dev" },
@@ -45,16 +47,18 @@ function App() {
         <div className="relative w-full h-screen overflow-hidden">
           {/* Background Layer */}
           <div className="absolute inset-0 z-0">
-            <Beams
-              beamWidth={2}
-              beamHeight={30}
-              beamNumber={20}
-              lightColor="#ffffff"
-              speed={2}
-              noiseIntensity={1.75}
-              scale={0.2}
-              rotation={30}
-            />
+            <Suspense fallback={<div className="w-full h-full bg-black" />}>
+              <Beams
+                beamWidth={2}
+                beamHeight={30}
+                beamNumber={20}
+                lightColor="#ffffff"
+                speed={2}
+                noiseIntensity={1.75}
+                scale={0.2}
+                rotation={30}
+              />
+            </Suspense>
           </div>
 
           {/* Content Layer */}
@@ -224,18 +228,22 @@ function App() {
 
         {/* Timeline Section */}
         <div className="relative w-full bg-black">
-          <TimelineDemo />
+          <Suspense fallback={<div className="w-full h-96" />}>
+            <TimelineDemo />
+          </Suspense>
         </div>
 
         {/* Threads Section */}
-        <div style={{ width: '100%', height: '650px', position: 'relative' }} className="flex flex-col md:flex-row items-center justify-center md:justify-around px-4 md:px-20 overflow-hidden md:h-[650px] h-auto py-12 md:py-0 gap-8 md:gap-0">
-          <div className="absolute inset-0 z-0">
-            <Threads
-              amplitude={1}
-              distance={0}
-              enableMouseInteraction
-            />
-          </div>
+        <div style={{ width: '100%', height: '650px', position: 'relative', willChange: 'transform', transform: 'translateZ(0)' }} className="flex flex-col md:flex-row items-center justify-center md:justify-around px-4 md:px-20 overflow-hidden md:h-[650px] h-auto py-12 md:py-0 gap-8 md:gap-0">
+          <Suspense fallback={<div className="absolute inset-0 z-0" />}>
+            <div className="absolute inset-0 z-0" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
+              <Threads
+                amplitude={1}
+                distance={0}
+                enableMouseInteraction
+              />
+            </div>
+          </Suspense>
 
           <div className="z-10 flex flex-col items-center md:items-start gap-4 md:gap-6 mb-8 md:mb-0">
             <h2 className="text-2xl md:text-4xl font-bold text-white tracking-tighter" style={{ fontFamily: '"Press Start 2P", cursive' }}>
@@ -255,7 +263,9 @@ function App() {
           </div>
 
           <div className="z-10 w-full max-w-md">
-            <ContactForm />
+            <Suspense fallback={<div className="w-full h-96" />}>
+              <ContactForm />
+            </Suspense>
           </div>
         </div>
       </div>

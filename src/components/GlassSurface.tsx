@@ -168,27 +168,16 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    let timeoutId: number;
     const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateDisplacementMap, 0);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateDisplacementMap, 100) as unknown as number;
     });
 
     resizeObserver.observe(containerRef.current);
 
     return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateDisplacementMap, 0);
-    });
-
-    resizeObserver.observe(containerRef.current);
-
-    return () => {
+      clearTimeout(timeoutId);
       resizeObserver.disconnect();
     };
   }, []);
@@ -227,7 +216,9 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
       height: typeof height === 'number' ? `${height}px` : height,
       borderRadius: `${borderRadius}px`,
       '--glass-frost': backgroundOpacity,
-      '--glass-saturation': saturation
+      '--glass-saturation': saturation,
+      transform: 'translateZ(0)',
+      contain: 'paint layout',
     } as React.CSSProperties;
 
     const backdropFilterSupported = supportsBackdropFilter();
@@ -303,7 +294,8 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   };
 
   const glassSurfaceClasses =
-    'relative flex items-center justify-center overflow-hidden transition-opacity duration-[260ms] ease-out';
+    'relative flex items-center justify-center overflow-hidden transition-opacity duration-[260ms] ease-out'
+    + ' will-change-transform';
 
   const focusVisibleClasses = isDarkMode
     ? 'focus-visible:outline-2 focus-visible:outline-[#0A84FF] focus-visible:outline-offset-2'

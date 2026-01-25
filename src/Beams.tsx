@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useEffect, useRef, useMemo } from 'react';
+import { forwardRef, useImperativeHandle, useEffect, useRef, useMemo, useState } from 'react';
 import type { FC, ReactNode } from 'react';
 
 import * as THREE from 'three';
@@ -87,11 +87,33 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
     return mat;
 }
 
-const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => (
-    <Canvas dpr={[1, 2]} frameloop="always" className="w-full h-full relative">
-        {children}
-    </Canvas>
-);
+const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            { threshold: 0 }
+        );
+
+        observer.observe(containerRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <div ref={containerRef} className="w-full h-full relative">
+            <Canvas dpr={[1, 2]} frameloop={isVisible ? "always" : "never"} className="w-full h-full relative">
+                {children}
+            </Canvas>
+        </div>
+    );
+};
 
 const hexToNormalizedRGB = (hex: string): [number, number, number] => {
     const clean = hex.replace('#', '');
