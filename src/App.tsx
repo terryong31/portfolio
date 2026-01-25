@@ -245,13 +245,10 @@ function App() {
               <a href="https://github.com/terryong31" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
                 <SiGithub className="w-6 h-6 md:w-8 md:h-8" />
               </a>
-              <a href="https://linkedin.com/in/terryong" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-[#0077b5] transition-colors">
+              <a href="https://linkedin.com/in/ongkokdonq" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-[#0077b5] transition-colors">
                 <SiLinkedin className="w-6 h-6 md:w-8 md:h-8" />
               </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
-                <SiX className="w-6 h-6 md:w-8 md:h-8" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-[#E1306C] transition-colors">
+              <a href="https://instagram.com/terryong30" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-[#E1306C] transition-colors">
                 <SiInstagram className="w-6 h-6 md:w-8 md:h-8" />
               </a>
             </div>
