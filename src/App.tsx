@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import Shuffle from './Shuffle';
 import MagicBento from './MagicBento';
 import LogoLoop from './LogoLoop';
-import { SiReact, SiTypescript, SiTailwindcss, SiPython, SiLangchain, SiAmazonwebservices, SiRedis, SiSupabase, SiDocker, SiMysql, SiUbuntu, SiGithub, SiLinkedin, SiX, SiInstagram } from 'react-icons/si';
+import { SiReact, SiTypescript, SiTailwindcss, SiPython, SiLangchain, SiAmazonwebservices, SiRedis, SiSupabase, SiDocker, SiMysql, SiUbuntu, SiGithub, SiLinkedin, SiInstagram } from 'react-icons/si';
 import ClickSpark from './ClickSpark'; // re-trigger
 import ShinyText from './ShinyText';
 import { TimelineDemo } from './TimelineDemo';
