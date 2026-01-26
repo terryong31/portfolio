@@ -168,7 +168,7 @@ const ParticleCard: React.FC<{
             }
 
             memoizedParticles.current.forEach((particle, index) => {
-                const timeoutId = setTimeout(() => {
+                const timeoutId = window.setTimeout(() => {
                     if (!isHoveredRef.current || !cardRef.current) return;
 
                     const clone = particle.cloneNode(true) as HTMLDivElement;
@@ -542,7 +542,7 @@ const MagicBento: React.FC<BentoProps> = ({
             --glow-intensity: 0;
             --glow-radius: 200px;
             --glow-color: ${glowColor};
-            --border-color: #392e4e;
+            --border-color: #ffffff6f;
             --background-dark: #060010;
             --white: hsl(0, 0%, 100%);
             --purple-primary: rgba(132, 0, 255, 1);

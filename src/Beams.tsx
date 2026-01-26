@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useEffect, useRef, useMemo, useState } from 'react';
+import { forwardRef, useImperativeHandle, useEffect, useRef, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 
 import * as THREE from 'three';
@@ -89,26 +89,33 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
 
 const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        // Trigger a resize event to ensure Canvas measures correctly on initial load
+        // This fixes issues where heavy composition (GlassSurface) might delay layout stability
+        const handleResize = () => {
+            if (typeof window !== 'undefined') {
+                window.dispatchEvent(new Event('resize'));
+            }
+        };
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsVisible(entry.isIntersecting);
-            },
-            { threshold: 0 }
-        );
+        const timeoutId = setTimeout(handleResize, 100);
+        const timeoutId2 = setTimeout(handleResize, 500); // Double tap to be safe
 
-        observer.observe(containerRef.current);
-
-        return () => observer.disconnect();
+        return () => {
+            clearTimeout(timeoutId);
+            clearTimeout(timeoutId2);
+        };
     }, []);
 
     return (
         <div ref={containerRef} className="w-full h-full relative">
-            <Canvas dpr={[1, 2]} frameloop={isVisible ? "always" : "never"} className="w-full h-full relative">
+            <Canvas
+                dpr={[1, 2]}
+                frameloop="always"
+                className="w-full h-full relative"
+                resize={{ scroll: false }} // Prevent scroll blocking
+            >
                 {children}
             </Canvas>
         </div>

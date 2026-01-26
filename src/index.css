@@ -117,7 +117,84 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Horizontal Scroll Styles */
+.track-wrapper {
+  /* Define local variables since we don't want to pollute global scope or if they are missing */
+  --size-content-3: 100ch;
+  /* Adjusted for better wide screen support */
+  --size-3: 1rem;
+  --size-4: 1.5rem;
+
+  width: 80%;
+  max-inline-size: var(--size-content-3);
+  overflow: hidden;
+  /* Mask effect */
+  mask: linear-gradient(90deg,
+      transparent 0,
+      black 15% 85%,
+      transparent) 0 50% / 100% calc(100% - (2 * var(--size-4))) no-repeat,
+    linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+    linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+  -webkit-mask: linear-gradient(90deg,
+      transparent 0,
+      black 15% 85%,
+      transparent) 0 50% / 100% calc(100% - (2 * var(--size-4))) no-repeat,
+    linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+    linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+}
+
+.track {
+  --size-4: 1.5rem;
+  /* --size: clamp(200px, 40vmin, 50rem); */
+  --size: 300px;
+  /* Fixed height for image consistency */
+  height: var(--size);
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  /* Changed from overlay to auto for better compatibility */
+  gap: var(--size-4);
+  list-style-type: none;
+  margin: 0;
+  padding: var(--size-4) 33%;
+  /* Center items initially */
+  scroll-snap-type: x mandatory;
+
+  mask: radial-gradient(#0000 0 30%, #000 30.5%) 50% calc(var(--size) * 0.5) / 300% 100%,
+    linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+    linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+  -webkit-mask: radial-gradient(#0000 0 30%, #000 30.5%) 50% calc(var(--size) * 0.5) / 300% 100%,
+    linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+    linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+
+  /* Hide scrollbar */
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track__item {
+  height: 100%;
+  aspect-ratio: 1;
+  background: hsl(0 0% 20% / 1);
+  /* Fallback */
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  /* Prevent shrinking */
+}
+
+/* Ensure images fit the container */
+.track__item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
 }

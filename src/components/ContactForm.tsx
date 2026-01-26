@@ -18,6 +18,7 @@ export function ContactForm() {
                 brightness={50}
                 opacity={0.93}
                 mixBlendMode="screen"
+                simple
                 className="w-full max-w-md"
             >
                 <div className="text-center p-8">
@@ -42,9 +43,10 @@ export function ContactForm() {
             opacity={0.93}
             mixBlendMode="screen"
             className="w-full max-w-md"
+            simple={true}
         >
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 md:gap-4 p-5 md:p-8">
-                <h2 className="text-lg md:text-2xl font-bold text-white mb-2 text-center md:text-left">Send Me a Message</h2>
+                <h2 className="text-lg md:text-2xl font-bold text-white mb-2 text-center md:text-left">Contact Me</h2>
                 <div className="flex flex-col gap-y-2">
                     <label
                         className="block font-sans leading-5 text-white font-medium"

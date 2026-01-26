@@ -18,6 +18,8 @@ export interface GlassSurfaceProps {
   blueOffset?: number;
   xChannel?: 'R' | 'G' | 'B';
   yChannel?: 'R' | 'G' | 'B';
+  /** Simple mode - cleaner glass without chromatic aberration, better for buttons */
+  simple?: boolean;
   mixBlendMode?:
   | 'normal'
   | 'multiply'
@@ -76,6 +78,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   blueOffset = 20,
   xChannel = 'R',
   yChannel = 'G',
+  simple = false,
   mixBlendMode = 'difference',
   className = '',
   style = {}
@@ -129,6 +132,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   };
 
   useEffect(() => {
+    if (simple) return;
     updateDisplacementMap();
     [
       { ref: redChannelRef, offset: redOffset },
@@ -144,6 +148,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
 
     gaussianBlurRef.current?.setAttribute('stdDeviation', displace.toString());
   }, [
+    simple,
     width,
     height,
     borderRadius,
@@ -162,29 +167,28 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   ]);
 
   useEffect(() => {
+    if (simple) return;
     setSvgSupported(supportsSVGFilters());
-  }, []);
+  }, [simple]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (simple || !containerRef.current) return;
 
-    let timeoutId: number;
     const resizeObserver = new ResizeObserver(() => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(updateDisplacementMap, 100) as unknown as number;
+      setTimeout(updateDisplacementMap, 0);
     });
 
     resizeObserver.observe(containerRef.current);
 
     return () => {
-      clearTimeout(timeoutId);
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [simple]);
 
   useEffect(() => {
+    if (simple) return;
     setTimeout(updateDisplacementMap, 0);
-  }, [width, height]);
+  }, [simple, width, height]);
 
   const supportsSVGFilters = () => {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
@@ -209,6 +213,22 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
     return CSS.supports('backdrop-filter', 'blur(10px)');
   };
 
+  // Simple mode styles for buttons
+  const getSimpleStyles = (): React.CSSProperties => {
+    return {
+      ...style,
+      width: typeof width === 'number' ? `${width}px` : width,
+      height: typeof height === 'number' ? `${height}px` : height,
+      borderRadius: `${borderRadius}px`,
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(12px) saturate(1.8) brightness(1.2)',
+      WebkitBackdropFilter: 'blur(12px) saturate(1.8) brightness(1.2)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+                  inset 0 -1px 0 0 rgba(255, 255, 255, 0.1)`,
+    };
+  };
+
   const getContainerStyles = (): React.CSSProperties => {
     const baseStyles: React.CSSProperties = {
       ...style,
@@ -216,9 +236,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
       height: typeof height === 'number' ? `${height}px` : height,
       borderRadius: `${borderRadius}px`,
       '--glass-frost': backgroundOpacity,
-      '--glass-saturation': saturation,
-      transform: 'translateZ(0)',
-      contain: 'paint layout',
+      '--glass-saturation': saturation
     } as React.CSSProperties;
 
     const backdropFilterSupported = supportsBackdropFilter();
@@ -294,13 +312,27 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   };
 
   const glassSurfaceClasses =
-    'relative flex items-center justify-center overflow-hidden transition-opacity duration-[260ms] ease-out'
-    + ' will-change-transform';
+    'relative flex items-center justify-center overflow-hidden transition-opacity duration-[260ms] ease-out';
 
   const focusVisibleClasses = isDarkMode
     ? 'focus-visible:outline-2 focus-visible:outline-[#0A84FF] focus-visible:outline-offset-2'
     : 'focus-visible:outline-2 focus-visible:outline-[#007AFF] focus-visible:outline-offset-2';
 
+  // Simple mode render (for buttons)
+  if (simple) {
+    return (
+      <div
+        className={`${glassSurfaceClasses} ${focusVisibleClasses} ${className}`}
+        style={getSimpleStyles()}
+      >
+        <div className="w-full h-full flex items-center justify-center p-2 rounded-[inherit] relative z-10">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
+  // Full SVG filter render
   return (
     <div
       ref={containerRef}
