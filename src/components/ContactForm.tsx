@@ -2,7 +2,7 @@ import { useForm, ValidationError } from "@formspree/react";
 import GlassSurface from "./GlassSurface";
 
 export function ContactForm() {
-    const [state, handleSubmit] = useForm("FORM_ID");
+    const [state, handleSubmit] = useForm("mwvownjz");
 
     if (state.succeeded) {
         return (
@@ -22,8 +22,8 @@ export function ContactForm() {
                 className="w-full max-w-md"
             >
                 <div className="text-center p-8">
-                    <p className="text-2xl font-bold text-black dark:text-white mb-2">Thanks for joining!</p>
-                    <p className="text-neutral-600 dark:text-neutral-300">I'll get back to you soon.</p>
+                    <p className="text-2xl font-bold text-white mb-2">Thank you!</p>
+                    <p className="text-neutral-300">I'll get back to you soon.</p>
                 </div>
             </GlassSurface>
         );

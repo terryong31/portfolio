@@ -3,6 +3,15 @@ import { EffectComposer, RenderPass, EffectPass, BloomEffect, ChromaticAberratio
 import * as THREE from 'three';
 import * as faceapi from 'face-api.js';
 
+// Flag to track client-side mount for hydration safety
+const useIsMounted = () => {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  return isMounted;
+};
+
 type GridScanProps = {
   enableWebcam?: boolean;
   showPreview?: boolean;
@@ -335,6 +344,7 @@ export const GridScan: React.FC<GridScanProps> = ({
   style,
   children
 }) => {
+  const isMounted = useIsMounted();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -391,69 +401,63 @@ export const GridScan: React.FC<GridScanProps> = ({
 
   const yBoost = THREE.MathUtils.lerp(1.2, 1.6, s);
 
-  useEffect(() => {
+  const leaveTimerRef = useRef<number | null>(null);
+
+  const onMove = (e: React.MouseEvent) => {
+    if (uiFaceActive) return;
     const el = containerRef.current;
     if (!el) return;
-    let leaveTimer: number | null = null;
-    const onMove = (e: MouseEvent) => {
-      if (uiFaceActive) return;
-      if (leaveTimer) {
-        clearTimeout(leaveTimer);
-        leaveTimer = null;
+
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    const rect = el.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+    lookTarget.current.set(nx, ny);
+  };
+
+  const onClick = async () => {
+    if (!scanOnClick) return;
+    const nowSec = performance.now() / 1000;
+    pushScan(nowSec);
+    if (
+      enableGyro &&
+      typeof window !== 'undefined' &&
+      'DeviceOrientationEvent' in window &&
+      typeof (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission === 'function'
+    ) {
+      try {
+        await (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission();
+      } catch (error) {
+        console.error(error);
       }
-      const rect = el.getBoundingClientRect();
-      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      lookTarget.current.set(nx, ny);
-    };
-    const onClick = async () => {
-      const nowSec = performance.now() / 1000;
-      if (scanOnClick) pushScan(nowSec);
-      if (
-        enableGyro &&
-        typeof window !== 'undefined' &&
-        'DeviceOrientationEvent' in window &&
-        typeof (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission === 'function'
-      ) {
-        try {
-          await (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission();
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    const onEnter = () => {
-      if (leaveTimer) {
-        clearTimeout(leaveTimer);
-        leaveTimer = null;
-      }
-    };
-    const onLeave = () => {
-      if (uiFaceActive) return;
-      if (leaveTimer) clearTimeout(leaveTimer);
-      leaveTimer = window.setTimeout(
-        () => {
-          lookTarget.current.set(0, 0);
-          tiltTarget.current = 0;
-          yawTarget.current = 0;
-        },
-        Math.max(0, snapBackDelay || 0)
-      );
-    };
-    el.addEventListener('mousemove', onMove);
-    el.addEventListener('mouseenter', onEnter);
-    if (scanOnClick) el.addEventListener('click', onClick);
-    el.addEventListener('mouseleave', onLeave);
-    return () => {
-      el.removeEventListener('mousemove', onMove);
-      el.removeEventListener('mouseenter', onEnter);
-      el.removeEventListener('mouseleave', onLeave);
-      if (scanOnClick) el.removeEventListener('click', onClick);
-      if (leaveTimer) clearTimeout(leaveTimer);
-    };
-  }, [uiFaceActive, snapBackDelay, scanOnClick, enableGyro]);
+    }
+  };
+
+  const onEnter = () => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+  };
+
+  const onLeave = () => {
+    if (uiFaceActive) return;
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    leaveTimerRef.current = window.setTimeout(
+      () => {
+        lookTarget.current.set(0, 0);
+        tiltTarget.current = 0;
+        yawTarget.current = 0;
+      },
+      Math.max(0, snapBackDelay || 0)
+    );
+  };
 
   useEffect(() => {
+    if (!isMounted) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -465,6 +469,10 @@ export const GridScan: React.FC<GridScanProps> = ({
     renderer.toneMapping = THREE.NoToneMapping;
     renderer.autoClear = false;
     renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.inset = '0';
+    renderer.domElement.style.zIndex = '0';
+    renderer.domElement.style.pointerEvents = 'none'; // Ensure canvas doesn't block events
     container.appendChild(renderer.domElement);
 
     const uniforms = {
@@ -629,7 +637,8 @@ export const GridScan: React.FC<GridScanProps> = ({
     scanSoftness,
     scanPhaseTaper,
     scanDuration,
-    scanDelay
+    scanDelay,
+    isMounted
   ]);
 
   useEffect(() => {
@@ -834,10 +843,30 @@ export const GridScan: React.FC<GridScanProps> = ({
     };
   }, [enableWebcam, modelsReady, depthResponse]);
 
+  // SSR safety: render placeholder until client-side mount
+  if (!isMounted) {
+    return (
+      <div className={`relative w-full h-full overflow-hidden ${className ?? ''}`} style={style}>
+        <div className="relative z-10 pointer-events-auto">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div ref={containerRef} className={`relative w-full h-full overflow-hidden ${className ?? ''}`} style={style}>
+    <div
+      ref={containerRef}
+      className={`relative w-full h-full overflow-hidden ${className ?? ''}`}
+      style={style}
+      onMouseMove={onMove}
+      onClick={scanOnClick ? onClick : undefined}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+    >
+      {/* Canvas is appended here via JS with z-index 0 */}
       {showPreview && (
-        <div className="absolute right-3 bottom-3 w-[220px] h-[132px] rounded-lg overflow-hidden border border-white/25 shadow-[0_4px_16px_rgba(0,0,0,0.4)] bg-black text-white text-[12px] leading-[1.2] font-sans pointer-events-none">
+        <div className="absolute right-3 bottom-3 w-[220px] h-[132px] rounded-lg overflow-hidden border border-white/25 shadow-[0_4px_16px_rgba(0,0,0,0.4)] bg-black text-white text-[12px] leading-[1.2] font-sans pointer-events-none z-20">
           <video ref={videoRef} muted playsInline autoPlay className="w-full h-full object-cover -scale-x-100" />
           <div className="absolute left-2 top-2 px-[6px] py-[2px] bg-black/50 rounded-[6px] backdrop-blur-[4px]">
             {enableWebcam
@@ -850,7 +879,9 @@ export const GridScan: React.FC<GridScanProps> = ({
           </div>
         </div>
       )}
-      {children}
+      <div className="relative z-10 pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto [&_input]:pointer-events-auto [&_textarea]:pointer-events-auto">
+        {children}
+      </div>
     </div>
   );
 };
