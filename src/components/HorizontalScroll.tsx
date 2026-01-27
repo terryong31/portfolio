@@ -1,16 +1,16 @@
 "use client";
 import { useEffect, useRef } from 'react';
-import cert1 from '@/assets/certs/1.jpg';
-import cert2 from '@/assets/certs/2.jpg';
-import cert3 from '@/assets/certs/3.jpg';
-import cert4 from '@/assets/certs/4.jpg';
-import cert5 from '@/assets/certs/5.jpg';
-import cert6 from '@/assets/certs/6.jpg';
-import cert7 from '@/assets/certs/7.png';
-import cert8 from '@/assets/certs/8.png';
-import cert9 from '@/assets/certs/9.jpg';
-import cert10 from '@/assets/certs/10.jpg';
-import cert11 from '@/assets/certs/11.png';
+import cert1 from '../assets/certs/1.jpg';
+import cert2 from '../assets/certs/2.jpg';
+import cert3 from '../assets/certs/3.jpg';
+import cert4 from '../assets/certs/4.jpg';
+import cert5 from '../assets/certs/5.jpg';
+import cert6 from '../assets/certs/6.jpg';
+import cert7 from '../assets/certs/7.png';
+import cert8 from '../assets/certs/8.png';
+import cert9 from '../assets/certs/9.jpg';
+import cert10 from '../assets/certs/10.jpg';
+import cert11 from '../assets/certs/11.png';
 
 const certs = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8, cert9, cert10, cert11];
 
