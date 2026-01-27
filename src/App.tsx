@@ -1,3 +1,4 @@
+"use client";
 import { Suspense, lazy } from 'react';
 import { motion } from 'motion/react';
 import Shuffle from './Shuffle';
@@ -9,7 +10,7 @@ import ShinyText from './ShinyText';
 import { DitherShader } from "@/components/ui/dither-shader";
 import asdImg from './assets/asd.png';
 import GlassSurface from './components/GlassSurface';
-import GridScan from './GridScan';
+import GridScan from './components/GridScan';
 
 import ScrollIndicator from './ScrollIndicator';
 import HorizontalScroll from './components/HorizontalScroll';
@@ -93,7 +94,7 @@ function App() {
                     loop={false}
                     loopDelay={0}
                     className="text-4xl text-white whitespace-nowrap"
-                    style={{ fontFamily: '"Press Start 2P", cursive', fontWeight: 400, letterSpacing: 'normal' }}
+                    style={{ fontFamily: 'var(--font-press-start-2p)', fontWeight: 400, letterSpacing: 'normal' }}
                   />
                   <Shuffle
                     text="ONG"
@@ -110,7 +111,7 @@ function App() {
                     loop={false}
                     loopDelay={0}
                     className="text-4xl text-white whitespace-nowrap"
-                    style={{ fontFamily: '"Press Start 2P", cursive', fontWeight: 400, letterSpacing: 'normal' }}
+                    style={{ fontFamily: 'var(--font-press-start-2p)', fontWeight: 400, letterSpacing: 'normal' }}
                   />
                 </div>
 
@@ -132,7 +133,7 @@ function App() {
                     loop={false}
                     loopDelay={0}
                     className="text-6xl text-white whitespace-nowrap"
-                    style={{ fontFamily: '"Press Start 2P", cursive', fontWeight: 400, letterSpacing: 'normal' }}
+                    style={{ fontFamily: 'var(--font-press-start-2p)', fontWeight: 400, letterSpacing: 'normal' }}
                   />
                 </div>
 
@@ -175,7 +176,7 @@ function App() {
               >
                 <div className="relative overflow-hidden rounded-b-full">
                   <DitherShader
-                    src={asdImg}
+                    src={asdImg.src}
                     gridSize={2}
                     ditherMode="bayer"
                     colorMode="grayscale"
@@ -201,7 +202,7 @@ function App() {
           </div>
 
           {/* Bento Grid Section */}
-          <div className="pt-24 font-medium text-center text-3xl" style={{ fontFamily: '"Press Start 2P", cursive' }}>About Me</div>
+          <div className="pt-24 font-medium text-center text-3xl" style={{ fontFamily: 'var(--font-press-start-2p)' }}>About Me</div>
           <div className="relative w-full pt-12 pb-20 bg-black flex justify-center items-center z-20">
             <MagicBento
               textAutoHide={true}
@@ -255,7 +256,7 @@ function App() {
               noiseIntensity={0.01}
               className="absolute inset-0"
             >
-              <div className="font-medium text-center text-3xl pt-20" style={{ fontFamily: '"Press Start 2P", cursive' }}>Certifications</div>
+              <div className="font-medium text-center text-3xl pt-20" style={{ fontFamily: 'var(--font-press-start-2p)' }}>Certifications</div>
               <HorizontalScroll />
             </GridScan>
           </div>
@@ -274,7 +275,7 @@ function App() {
 
             <div className="z-10 w-full flex flex-col md:flex-row items-center md:justify-around gap-8 md:gap-0 my-auto">
               <div className="flex flex-col items-center md:items-start gap-4 md:gap-6 mb-8 md:mb-0">
-                <h2 className="text-2xl md:text-4xl font-bold text-white tracking-tighter" style={{ fontFamily: '"Press Start 2P", cursive' }}>
+                <h2 className="text-2xl md:text-4xl font-bold text-white tracking-tighter" style={{ fontFamily: 'var(--font-press-start-2p)' }}>
                   Let's Connect
                 </h2>
                 <div className="flex gap-4 md:gap-6">

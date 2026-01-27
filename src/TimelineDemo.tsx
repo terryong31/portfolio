@@ -1,11 +1,11 @@
 import { Timeline } from "@/components/ui/timeline";
-import qiu1 from '@/assets/qiu/1.JPG';
-import qiu2 from '@/assets/qiu/2.JPG';
-import qiu3 from '@/assets/qiu/3.JPG';
+import qiu1 from '@/assets/qiu/1.jpg';
+import qiu2 from '@/assets/qiu/2.jpg';
+import qiu3 from '@/assets/qiu/3.jpg';
 import texchem1 from '@/assets/texchem/1.jpeg';
 import hack1 from '@/assets/hackathons/1.jpg';
 import hack2 from '@/assets/hackathons/2.jpg';
-import hack3 from '@/assets/hackathons/3.JPG';
+import hack3 from '@/assets/hackathons/3.jpg';
 import hack4 from '@/assets/hackathons/4.jpeg';
 import paynet1 from '@/assets/paynet/1.jpg';
 import paynet2 from '@/assets/paynet/2.jpg';
@@ -32,21 +32,21 @@ export function TimelineDemo() {
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <img
-                            src={qiu1}
+                            src={qiu1.src}
                             alt="University orientation"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={qiu2}
+                            src={qiu2.src}
                             alt="University event"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={qiu3}
+                            src={qiu3.src}
                             alt="Music club performance"
                             width={500}
                             height={500}
@@ -68,7 +68,7 @@ export function TimelineDemo() {
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <img
-                            src={texchem1}
+                            src={texchem1.src}
                             alt="Internship workspace"
                             width={500}
                             height={500}
@@ -81,28 +81,28 @@ export function TimelineDemo() {
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <img
-                            src={negolah1}
+                            src={negolah1.src}
                             alt="Nego-lah landing page"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={negolah2}
+                            src={negolah2.src}
                             alt="Nego-lah item page"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={negolah3}
+                            src={negolah3.src}
                             alt="Nego-lah chat page"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={negolah4}
+                            src={negolah4.src}
                             alt="Nego-lah chat page"
                             width={500}
                             height={500}
@@ -117,21 +117,21 @@ export function TimelineDemo() {
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <img
-                            src={gtbot1}
+                            src={gtbot1.src}
                             alt="GT-Bot landing page"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={gtbot2}
+                            src={gtbot2.src}
                             alt="GT-Bot telegram page"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={gtbot3}
+                            src={gtbot3.src}
                             alt="GT-Bot chatting example"
                             width={500}
                             height={500}
@@ -148,21 +148,21 @@ export function TimelineDemo() {
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <img
-                            src={paynet1}
+                            src={paynet1.src}
                             alt="Paynet 1"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={paynet2}
+                            src={paynet2.src}
                             alt="Paynet 2"
                             width={500}
                             height={500}
                             className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                         />
                         <img
-                            src={paynet3}
+                            src={paynet3.src}
                             alt="Paynet 3"
                             width={500}
                             height={500}
@@ -191,28 +191,28 @@ export function TimelineDemo() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <img
-                                src={hack1}
+                                src={hack1.src}
                                 alt="Hackathon event 1"
                                 width={500}
                                 height={500}
                                 className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                             />
                             <img
-                                src={hack2}
+                                src={hack2.src}
                                 alt="Hackathon event 2"
                                 width={500}
                                 height={500}
                                 className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                             />
                             <img
-                                src={hack3}
+                                src={hack3.src}
                                 alt="Hackathon event 3"
                                 width={500}
                                 height={500}
                                 className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
                             />
                             <img
-                                src={hack4}
+                                src={hack4.src}
                                 alt="Hackathon event 4"
                                 width={500}
                                 height={500}

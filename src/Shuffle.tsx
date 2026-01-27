@@ -71,7 +71,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
     // If they don't have the paid Club GSAP, this import will fail or be empty.
     // For now I will blindly paste their code, but if build fails I might need to comment it out or warn.
 
-    const splitRef = useRef<any>(null); // Loosening type to avoid TS errors if types are missing
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const splitRef = useRef<any>(null);
     const wrappersRef = useRef<HTMLElement[]>([]);
     const tlRef = useRef<gsap.core.Timeline | null>(null);
     const playingRef = useRef(false);
@@ -128,7 +129,9 @@ const Shuffle: React.FC<ShuffleProps> = ({
                     if (splitRef.current && typeof splitRef.current.revert === 'function') {
                         splitRef.current.revert();
                     }
-                } catch { }
+                } catch {
+                    // ignore
+                }
                 splitRef.current = null;
                 playingRef.current = false;
             };
@@ -147,6 +150,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
                         linesClass: 'shuffle-line',
                         // smartWrap: true, // properties might differ based on version
                         // reduceWhiteSpace: false
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     } as any);
                 } catch (e) {
                     console.warn("GSAP SplitText failed to initialize. Is the plugin installed/registered?", e);
@@ -242,7 +246,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
                         inner.setAttribute('data-final-y', String(finalY));
                     }
 
-                    if (colorFrom) (inner.style as any).color = colorFrom;
+                    if (colorFrom) inner.style.color = colorFrom;
                     wrappersRef.current.push(wrap);
                 });
             };
@@ -305,7 +309,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
                 });
 
                 const addTween = (targets: HTMLElement[], at: number) => {
-                    const vars: any = {
+                    const vars: gsap.TweenVars = {
                         duration,
                         ease,
                         force3D: true,
@@ -332,7 +336,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
                 } else {
                     strips.forEach(strip => {
                         const d = Math.random() * maxDelay;
-                        const vars: any = {
+                        const vars: gsap.TweenVars = {
                             duration,
                             ease,
                             force3D: true
@@ -434,7 +438,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
     );
     const Tag = (tag || 'p') as keyof JSX.IntrinsicElements;
 
-    return React.createElement(Tag, { ref: ref as any, className: classes, style: commonStyle }, text);
+    // eslint-disable-next-line react-hooks/refs
+    return React.createElement(Tag, { ref: ref, className: classes, style: commonStyle }, text);
 };
 
 export default Shuffle;

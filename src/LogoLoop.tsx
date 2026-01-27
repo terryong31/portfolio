@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export type LogoItem =
@@ -72,6 +73,7 @@ const useResizeObserver = (
         return () => {
             observers.forEach(observer => observer?.disconnect());
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, dependencies);
 };
 
@@ -112,6 +114,7 @@ const useImageLoader = (
                 img.removeEventListener('error', handleImageLoad);
             });
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, dependencies);
 };
 
@@ -191,6 +194,7 @@ const useAnimationLoop = (
             }
             lastTimestampRef.current = null;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical]);
 };
 

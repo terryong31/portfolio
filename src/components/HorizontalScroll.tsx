@@ -1,13 +1,23 @@
+"use client";
 import { useEffect, useRef } from 'react';
+import cert1 from '@/assets/certs/1.jpg';
+import cert2 from '@/assets/certs/2.jpg';
+import cert3 from '@/assets/certs/3.jpg';
+import cert4 from '@/assets/certs/4.jpg';
+import cert5 from '@/assets/certs/5.jpg';
+import cert6 from '@/assets/certs/6.jpg';
+import cert7 from '@/assets/certs/7.png';
+import cert8 from '@/assets/certs/8.png';
+import cert9 from '@/assets/certs/9.jpg';
+import cert10 from '@/assets/certs/10.jpg';
+import cert11 from '@/assets/certs/11.png';
+
+const certs = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8, cert9, cert10, cert11];
 
 const HorizontalScroll = () => {
-    // Use import.meta.glob to load all images from the certs folder
-    const certs = import.meta.glob('@/assets/certs/*.{png,jpg,jpeg,PNG,JPG}', { eager: true, query: '?url', import: 'default' });
-    const images = Object.values(certs) as string[];
-
     // Duplicate images sufficient times to cover wide screens and allow seamless looping
     // 3 sets is usually safe: [set1][set2][set3] - we scroll through set1 and jump back to start of set2 (which looks same as start of set1)
-    const displayImages = [...images, ...images, ...images];
+    const displayImages = [...certs, ...certs, ...certs];
     const scrollRef = useRef<HTMLUListElement>(null);
 
     const isInitializedRef = useRef(false);
@@ -31,7 +41,7 @@ const HorizontalScroll = () => {
             // We measure the distance from the first item of the first set (index 0)
             // to the first item of the second set (index images.length)
             const firstItem = scrollContainer.children[0] as HTMLElement;
-            const secondSetFirstItem = scrollContainer.children[images.length] as HTMLElement;
+            const secondSetFirstItem = scrollContainer.children[certs.length] as HTMLElement;
 
             if (firstItem && secondSetFirstItem) {
                 const oneSetWidth = secondSetFirstItem.offsetLeft - firstItem.offsetLeft;
@@ -72,7 +82,7 @@ const HorizontalScroll = () => {
                 <ul className="track" ref={scrollRef}>
                     {displayImages.map((src, index) => (
                         <li className="track__item" key={index}>
-                            <img src={src} alt={`Horizontal Scroll ${index + 1}`} width="300" height="300" className="object-cover" />
+                            <img src={src.src} alt={`Horizontal Scroll ${index + 1}`} width="300" height="300" className="object-cover" />
                         </li>
                     ))}
                 </ul>

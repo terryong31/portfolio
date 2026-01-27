@@ -36,6 +36,7 @@ type GridScanProps = {
   snapBackDelay?: number;
   className?: string;
   style?: React.CSSProperties;
+  children?: React.ReactNode;
 };
 
 const vert = `
@@ -331,7 +332,8 @@ export const GridScan: React.FC<GridScanProps> = ({
   scanOnClick = false,
   snapBackDelay = 250,
   className,
-  style
+  style,
+  children
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -410,12 +412,14 @@ export const GridScan: React.FC<GridScanProps> = ({
       if (
         enableGyro &&
         typeof window !== 'undefined' &&
-        (window as any).DeviceOrientationEvent &&
-        (DeviceOrientationEvent as any).requestPermission
+        'DeviceOrientationEvent' in window &&
+        typeof (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission === 'function'
       ) {
         try {
-          await (DeviceOrientationEvent as any).requestPermission();
-        } catch {}
+          await (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission();
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
     const onEnter = () => {
@@ -609,7 +613,23 @@ export const GridScan: React.FC<GridScanProps> = ({
     lineStyle,
     lineJitter,
     scanDirection,
-    enablePost
+    enablePost,
+    bloomSmoothing,
+    bloomThreshold,
+    chromaticAberration,
+    maxSpeed,
+    skewScale,
+    smoothTime,
+    tiltScale,
+    yBoost,
+    yawScale,
+    bloomIntensity,
+    noiseIntensity,
+    scanGlow,
+    scanSoftness,
+    scanPhaseTaper,
+    scanDuration,
+    scanDelay
   ]);
 
   useEffect(() => {
@@ -634,8 +654,10 @@ export const GridScan: React.FC<GridScanProps> = ({
     }
     if (bloomRef.current) {
       bloomRef.current.blendMode.opacity.value = Math.max(0, bloomIntensity);
-      (bloomRef.current as any).luminanceMaterial.threshold = bloomThreshold;
-      (bloomRef.current as any).luminanceMaterial.smoothing = bloomSmoothing;
+
+      const luminanceMat = (bloomRef.current as unknown as { luminanceMaterial: { threshold: number; smoothing: number } }).luminanceMaterial;
+      luminanceMat.threshold = bloomThreshold;
+      luminanceMat.smoothing = bloomSmoothing;
     }
     if (chromaRef.current) {
       chromaRef.current.offset.set(chromaticAberration, chromaticAberration);
@@ -700,9 +722,18 @@ export const GridScan: React.FC<GridScanProps> = ({
   useEffect(() => {
     let stop = false;
     let lastDetect = 0;
+    const videoElement = videoRef.current;
 
     const start = async () => {
       if (!enableWebcam || !modelsReady) return;
+      // Capture video element here for use in closure if needed, but for cleanup use ref carefully
+      // Actually, standard pattern to fix the warning is to capture ref.current at effect start.
+      // But we need the value at cleanup time.
+      // However, if we capture it here: `const videoEl = videoRef.current;`
+      // And use `videoEl` in cleanup.
+      // If `videoRef` is initially null (because ref not attached yet?), then `videoEl` is null.
+      // `videoRef` attaches on render. `useEffect` runs after render. So `videoRef.current` should be populated.
+
       const video = videoRef.current;
       if (!video) return;
 
@@ -777,8 +808,11 @@ export const GridScan: React.FC<GridScanProps> = ({
           }
         }
 
-        if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
-          (video as any).requestVideoFrameCallback(() => detect(performance.now()));
+        if (
+          'requestVideoFrameCallback' in HTMLVideoElement.prototype &&
+          typeof (video as HTMLVideoElement & { requestVideoFrameCallback: (cb: (now: number, metadata: object) => void) => void }).requestVideoFrameCallback === 'function'
+        ) {
+          (video as HTMLVideoElement & { requestVideoFrameCallback: (cb: (now: number, metadata: object) => void) => void }).requestVideoFrameCallback(() => detect(performance.now()));
         } else {
           requestAnimationFrame(detect);
         }
@@ -791,12 +825,11 @@ export const GridScan: React.FC<GridScanProps> = ({
 
     return () => {
       stop = true;
-      const video = videoRef.current;
-      if (video) {
-        const stream = video.srcObject as MediaStream | null;
+      if (videoElement) {
+        const stream = videoElement.srcObject as MediaStream | null;
         if (stream) stream.getTracks().forEach(t => t.stop());
-        video.pause();
-        video.srcObject = null;
+        videoElement.pause();
+        videoElement.srcObject = null;
       }
     };
   }, [enableWebcam, modelsReady, depthResponse]);
@@ -817,6 +850,7 @@ export const GridScan: React.FC<GridScanProps> = ({
           </div>
         </div>
       )}
+      {children}
     </div>
   );
 };
@@ -840,7 +874,7 @@ function smoothDampVec2(
   const x = omega * deltaTime;
   const exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
 
-  let change = current.clone().sub(target);
+  const change = current.clone().sub(target);
   const originalTo = target.clone();
 
   const maxChange = maxSpeed * smoothTime;
@@ -922,3 +956,5 @@ function centroid(points: { x: number; y: number }[]) {
 function dist2(a: { x: number; y: number }, b: { x: number; y: number }) {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
+
+export default GridScan;

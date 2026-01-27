@@ -126,6 +126,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 
         // Only continue animation if there are sparks remaining
         if (sparksRef.current.length > 0) {
+            // eslint-disable-next-line react-hooks/immutability
             animationIdRef.current = requestAnimationFrame(draw);
         } else {
             isAnimating = false;

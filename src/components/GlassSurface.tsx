@@ -50,6 +50,7 @@ const useDarkMode = () => {
     if (typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDark(mediaQuery.matches);
 
     const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
@@ -127,9 +128,10 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
     return `data:image/svg+xml,${encodeURIComponent(svgContent)}`;
   };
 
-  const updateDisplacementMap = () => {
+  const updateDisplacementMap = React.useCallback(() => {
     feImageRef.current?.setAttribute('href', generateDisplacementMap());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width, height, borderRadius, borderWidth, brightness, opacity, blur, mixBlendMode, backgroundOpacity, saturation, isDarkMode]);
 
   useEffect(() => {
     if (simple) return;
@@ -163,13 +165,31 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
     blueOffset,
     xChannel,
     yChannel,
-    mixBlendMode
+    mixBlendMode,
+    updateDisplacementMap
   ]);
 
   useEffect(() => {
     if (simple) return;
-    setSvgSupported(supportsSVGFilters());
-  }, [simple]);
+    const checkSupport = () => {
+      if (typeof window === 'undefined' || typeof document === 'undefined') {
+        return false;
+      }
+
+      const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+      const isFirefox = /Firefox/.test(navigator.userAgent);
+
+      if (isWebkit || isFirefox) {
+        return false;
+      }
+
+      const div = document.createElement('div');
+      div.style.backdropFilter = `url(#${filterId})`;
+
+      return div.style.backdropFilter !== '';
+    };
+    setSvgSupported(checkSupport());
+  }, [simple, filterId]);
 
   useEffect(() => {
     if (simple || !containerRef.current) return;
@@ -183,30 +203,14 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
     return () => {
       resizeObserver.disconnect();
     };
-  }, [simple]);
+  }, [simple, updateDisplacementMap]);
 
   useEffect(() => {
     if (simple) return;
     setTimeout(updateDisplacementMap, 0);
-  }, [simple, width, height]);
+  }, [simple, width, height, updateDisplacementMap]);
 
-  const supportsSVGFilters = () => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return false;
-    }
 
-    const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-    const isFirefox = /Firefox/.test(navigator.userAgent);
-
-    if (isWebkit || isFirefox) {
-      return false;
-    }
-
-    const div = document.createElement('div');
-    div.style.backdropFilter = `url(#${filterId})`;
-
-    return div.style.backdropFilter !== '';
-  };
 
   const supportsBackdropFilter = () => {
     if (typeof window === 'undefined') return false;
