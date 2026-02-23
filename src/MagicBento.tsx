@@ -38,8 +38,8 @@ const cardData: BentoCardProps[] = [
     },
     {
         color: '#060010',
-        title: 'AI R&D',
-        description: 'EAS Academy Sdn Bhd',
+        title: 'AI Engineer',
+        description: 'Beetle Knight Advisory Sdn Bhd (FinKnight)',
         label: 'Occupation'
     },
     {

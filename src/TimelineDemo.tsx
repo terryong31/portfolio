@@ -7,6 +7,9 @@ const hack1 = '/assets/hackathons/1.jpg';
 const hack2 = '/assets/hackathons/2.jpg';
 const hack3 = '/assets/hackathons/3.jpg';
 const hack4 = '/assets/hackathons/4.jpeg';
+const hack5 = '/assets/hackathon/5.jpg';
+const hack6 = '/assets/hackathon/6.jpg';
+const hack7 = '/assets/hackathon/7.png';
 const paynet1 = '/assets/paynet/1.jpg';
 const paynet2 = '/assets/paynet/2.jpg';
 const paynet3 = '/assets/paynet/3.jpg';
@@ -221,7 +224,56 @@ export function TimelineDemo() {
                         </div>
                     </div>
                 </div >
-
+            ),
+        },
+        {
+            title: "2026",
+            content: (
+                <div>
+                    <p className="mb-8 text-xs font-normal text-neutral-200 md:text-sm">
+                        I landed a new job at <a href="https://www.finknight.com" target="_blank"><u><strong>FinKnight</strong></u></a> as an AI Engineer
+                    </p>
+                    <p className="mb-8 text-xs font-normal text-neutral-200 md:text-sm">
+                        Really excited to see what are the new challenges that are coming in
+                    </p>
+                    <div className="mb-8"></div>
+                    <div>
+                        <p className="mb-4 text-xs font-normal text-neutral-200 md:text-sm">
+                            Hackathons I&apos;ve attended:
+                        </p>
+                        <div className="mb-8">
+                            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+                                Top 5 - Deriv AI Hackathon
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+                                Apify Track Winner - $1 Hack: The First Dollar Sprint
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <img
+                                src={hack5}
+                                alt="Hackathon event 5"
+                                width={500}
+                                height={500}
+                                className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+                            />
+                            <img
+                                src={hack6}
+                                alt="Hackathon event 6"
+                                width={500}
+                                height={500}
+                                className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+                            />
+                            <img
+                                src={hack7}
+                                alt="Hackathon event 7"
+                                width={500}
+                                height={500}
+                                className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+                            />
+                        </div>
+                    </div>
+                </div >
             ),
         },
     ];
