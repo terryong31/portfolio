@@ -1,0 +1,13 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index c8cbe267d2cfa3268727faeb1f06c8cc6ba7155a..4432be6e4c6a302ebd4834a24b8a2d49d2ffef64 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -5969,7 +5969,7 @@ const RemovePluginMetadataPlugin = (nuxt) => createUnplugin(() => {
+ 					map: null
+ 				};
+ 			}
+-			if (!findExports(code).find((e) => e.type === "default" || e.name === "default")) {
++			if (!findExports(code).find((e) => e.type === "default" || e.name === "default" || e.names?.includes("default"))) {
+ 				pluginDiagnostics.NUXT_B2005({ src: plugin.src });
+ 				return {
+ 					code: "export default () => {}",

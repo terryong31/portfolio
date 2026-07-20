@@ -1,27 +1,29 @@
 title: About Me
-description: Learn more about my journey as a Boston-based UX/UI Designer & Front-End Developer, my design philosophy, and my passion for crafting intuitive digital experiences.
+description: The unfiltered version — how Terry Ong went from copy-pasting his way through school to building AI systems, losing sleep to hackathons, and playing Metallica on a Hello Kitty guitar.
 content: |
-  Hi, I'm **Emma Thompson**, a UX/UI Designer and Front-End Developer based right here in Boston. For the past six years, I've been immersed in the world of digital product creation, focusing on building experiences that are not just functional, but genuinely intuitive and engaging for users.
+  Hey, I'm **Terry** 👋 I'm an AI engineer in Malaysia who builds things that probably shouldn't work — until, somehow, they do. Give me a half-baked idea, an LLM, and a deadline, and I'll turn it into something people can actually use (or at least a very convincing demo).
 
-  My path started at **Boston University**, where I earned a degree in Interactive Design. It was there I discovered my dual passion for the visual language of design and the logical puzzle of code. Since then, I've honed my skills in both areas, believing that the best digital products are born from a deep understanding of both aesthetics and implementation.
+  ### How I actually got here
 
-  ### My Design Philosophy
+  Real talk: I coasted through most of school. ChatGPT dropped and I basically copy-pasted my way through everything — learned almost nothing, and I knew it. What *actually* taught me to code was [Codédex](https://www.codedex.io) and a dumb little airline booking system I built by hand — no AI, just me figuring out Python line by painful line. That project is where it finally clicked: how code really works, how to *design* a system instead of duct-taping snippets together. Everything I do now traces back to that one.
 
-  My design philosophy is rooted in **empathy** and **problem-solving**. I believe great design starts with understanding the 'why' – the user's needs, motivations, and pain points. I use research, iterative prototyping (often with tools like Figma), and user testing to ensure the solutions I build are truly effective.
+  ### The hackathon problem
 
-  I strive to create interfaces that feel effortless, where functionality and beauty work hand-in-hand. Whether I'm crafting pixel-perfect UIs or writing clean Vue.js/Nuxt.js code, my focus is always on creating value for the end-user.
+  I'm addicted to hackathons, full stop. There's nothing like starting with an empty repo at 9am and having a working demo — held together with hope and duct tape — by the next morning. I've built an AI marketplace that haggles and closes its own sales, a prompt-injection detector that swats attacks in under 100ms, and a hospital finder that genuinely helped people find hospitals. Some won, some flopped. Winning's nice, but honestly I'm just there for the 24-hour chaos.
 
-  ### What Drives Me
+  Day job? I'm an **AI Engineer at Finknight** — auth flows, Python automations, and shaving milliseconds off page loads because slow websites piss me off on a personal level.
 
-  What keeps me excited about this work is the constant learning and the challenge of translating complex ideas into simple, elegant solutions. There's nothing more rewarding than seeing a design come to life and knowing it's making someone's digital interaction easier or more enjoyable.
+  ### How I work
 
-  ### Beyond the Screen
+  Ship first, philosophise later. I'd rather push an ugly thing that works than polish a beautiful thing that dies in a "coming soon" folder. Most of my favourite projects started as a stupid *"wait… what if"* at 2am. I break a lot of stuff. I fix most of it.
 
-  When I'm not designing or coding, you might find me exploring Boston's latest coffee shops, hiking nearby trails, or occasionally contributing to open-source projects.
+  ### When I'm not at a keyboard
 
-  Thanks for stopping by. Feel free to browse my [projects](/projects) or [get in touch](/#contact) if you'd like to collaborate!
+  I play guitar — badly, loudly, and with three of them, including a Hello Kitty Squier that has watched me butcher Metallica riffs it was absolutely not built for. Heavy metal, hard rock, a bit of cantopop when nobody's looking. When the guitars are down I'm usually deep in a AAA game — RDR2, God of War, The Last of Us, basically the whole cinematic sad-dad-simulator genre. And coffee. Always coffee.
+
+  If any of this sounds like your kind of energy, [poke around my projects](/projects) or just [say hi](mailto:terryong30@gmail.com) — I'm always down to build something weird.
 images:
-  - src: https://images.unsplash.com/photo-1744877478622-a78c7a3336f6?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-    alt: My coffee workspace
-  - src: https://images.unsplash.com/photo-1744429523595-2c06b8611242?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-    alt: My trip to Tokyo
+  - src: /gallery/setup.avif
+    alt: My usual coding setup
+  - src: /gallery/hello-kitty.avif
+    alt: My Hello Kitty Squier

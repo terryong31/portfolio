@@ -11,10 +11,10 @@ if (!page.value) {
 }
 
 const { data: projects } = await useAsyncData('projects', () => {
-  return queryCollection('projects').all()
+  return queryCollection('projects').order('date', 'DESC').all()
 })
 
-const { global } = useAppConfig()
+const isModalOpen = ref(false)
 
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
@@ -48,11 +48,11 @@ defineOgImage('Portfolio', { title, description })
         >
           <UButton
             :label="page.links[0]?.label"
-            :to="global.meetingLink"
             v-bind="page.links[0]"
+            @click="isModalOpen = true"
           />
           <UButton
-            :to="`mailto:${global.email}`"
+            to="mailto:contact@terryong.me"
             v-bind="page.links[1]"
           />
         </div>
@@ -100,13 +100,17 @@ defineOgImage('Portfolio', { title, description })
               />
             </ULink>
           </template>
-          <img
+          <NuxtImg
             :src="project.image"
             :alt="project.title"
+            width="800"
+            height="400"
             class="object-cover w-full h-48 rounded-lg"
-          >
+          />
         </UPageCard>
       </Motion>
     </UPageSection>
+
+    <ContactModal v-model:open="isModalOpen" />
   </UPage>
 </template>

@@ -1,0 +1,6 @@
+title: Carousell Clone
+description: "A Carousell clone I built in Nuxt to practise assembling a full marketplace front end, from listings and search to the small details that make it feel real. It runs on a domain I actually own."
+image: /projects/carousell-clone.png
+url: "https://github.com/terryong31/carousell-clone"
+tags: ["Nuxt", "Vue", "Tailwind"]
+date: "2025-02-01"

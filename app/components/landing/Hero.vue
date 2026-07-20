@@ -2,6 +2,7 @@
 import type { IndexCollectionItem } from '@nuxt/content'
 
 const { footer, global } = useAppConfig()
+const isModalOpen = ref(false)
 
 defineProps<{
   page: IndexCollectionItem
@@ -121,7 +122,7 @@ defineProps<{
             :color="global.available ? 'success' : 'error'"
             variant="ghost"
             class="gap-2"
-            :to="global.available ? global.meetingLink : ''"
+            @click="isModalOpen = true"
             :label="global.available ? 'Available for new projects' : 'Not available at the moment'"
           >
             <template #leading>
@@ -199,4 +200,6 @@ defineProps<{
       </Motion>
     </UMarquee>
   </UPageHero>
+
+  <ContactModal v-model:open="isModalOpen" />
 </template>

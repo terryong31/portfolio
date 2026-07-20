@@ -1,0 +1,6 @@
+title: Nego-lah
+description: "An AI marketplace that handles the whole sale on its own, from pricing your item off live market data to negotiating with buyers and generating the Stripe payment link. It closed two real sales in the two hour judging window and won the Apify track at the $1 Hackathon."
+image: /projects/nego-lah.png
+url: "https://github.com/terryong31/nego-lah"
+tags: ["AI Agents", "LangGraph", "FastAPI", "Nuxt", "Stripe"]
+date: "2026-01-01"

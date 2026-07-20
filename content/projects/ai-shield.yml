@@ -1,0 +1,6 @@
+title: AI S.H.I.E.L.D.
+description: "A two layer prompt injection detector that blocks malicious inputs before they reach an expensive model, at 95% accuracy in under 100ms. I led a team of five and we placed Top 5 at the Deriv AI Hackathon."
+image: /projects/ai-shield.png
+url: "https://github.com/terryong31/ai-shield"
+tags: ["AI Security", "LangChain", "FastAPI", "TensorFlow", "Next.js"]
+date: "2026-02-01"
