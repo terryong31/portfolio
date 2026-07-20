@@ -57,11 +57,6 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: nuxt
-
       - name: Generate static site
         run: bun run generate
         env:
