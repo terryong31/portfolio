@@ -1,0 +1,103 @@
+seo:
+  title: "Terry Ong - AI Engineer"
+  description: "Welcome to my portfolio! I'm Terry Ong, an AI Engineer and front-end developer based in Malaysia. I specialize in creating fintech SaaS with AI integration."
+title: "Hey, I'm Terry Ong AI Engineer"
+description: "I craft systems where it scales and maintainable. Based in Malaysia, bringing ideas to life through code and creativity."
+hero:
+  links:
+    - label: "Download Resume"
+      to: /document/resume.pdf
+      color: "neutral"
+      download: true
+  images:
+    - src: /hero/random-1.avif
+      alt: Random Image 1
+    - src: /hero/random-2.avif
+      alt: Random Image 2
+    - src: /hero/random-3.avif
+      alt: Random Image 3
+    - src: /hero/random-4.avif
+      alt: Random Image 4
+    - src: /hero/random-5.avif
+      alt: Random Image 5
+    - src: /hero/random-6.avif
+      alt: Random Image 6
+    - src: /hero/random-7.avif
+      alt: Random Image 7
+    - src: /hero/random-8.avif
+      alt: Random Image 8
+    - src: /hero/random-9.avif
+      alt: Random Image 9
+about:
+  title: "About Me"
+  description: |
+    Applied AI Software Engineer with a track record of shipping LLM systems and placing in AI hackathons.
+    Focused on backend, cloud infrastructure, and turning AI prototypes into deployed products.
+experience:
+  title: Work Experience
+  items:
+    - position: "AI Engineer at"
+      date: "2026 - Present"
+      company:
+        name: FinKnight
+        url: "https://nuxt.com"
+        color: "#FF6363"
+testimonials:
+  - quote: "Terry built our auth system for a multi-tenant Nuxt.js app and automated our financial data reconciliation pipeline. Solid engineer who just gets things done."
+    author:
+      name: 'Raymond'
+      description: 'CTO at FinKnight'
+      avatar:
+        src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
+        srcset: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+  - quote: "I teamed up with Terry at a Hackathon and he built the entire 'GitHub for events' web app that lands us top 10. The guy ships under pressure like nobody else I've seen."
+    author:
+      name: 'Nicholas Ooi'
+      description: 'Full Stack Developer at ALPHV Technology'
+      avatar:
+        src: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
+        srcset: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+  - quote: "Terry led our team of 5 at the Deriv AI Hackathon and architected a prompt injection detector. We placed top 5 and the judges were genuinely impressed by the architecture."
+    author:
+      name: 'Ryan Tan'
+      description: 'Student at German-Malaysian Institute'
+      avatar:
+        src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
+        srcset: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+blog:
+  title: "Latest Articles"
+  description: "Some of my recent thoughts"
+faq:
+  title: Frequently Asked Questions
+  description: Answers to common questions about what I do and how I work.
+  categories:
+    - title: Services & Process
+      questions:
+        - label: What do you specialize in?
+          content: |
+            I build AI-powered software systems — LLM pipelines, RAG applications, agentic workflows with LangGraph, and full-stack web apps with Nuxt.js and FastAPI. I also handle cloud infrastructure (AWS, Azure, Vercel, Supabase) and have experience automating financial data workflows, web scraping pipelines, and multi-tenant auth systems.
+        - label: What's your approach to building software?
+          content: |
+            I focus on shipping working software fast and iterating. I start with understanding the problem, pick the simplest architecture that works, build it, then optimize. I've done this under extreme time pressure at hackathons (built and deployed a full marketplace in 2 hours) and in production environments at FinKnight.
+        - label: Do you compete in hackathons?
+          content: |
+            Yes — I've placed in multiple AI hackathons including Student Winner at ASEAN AI Malaysia Summit Code Fest, 1st Runner Up at CIMB x Microsoft Data Science & Gen AI Hackathon, Apify Track Winner at the $1 Hackathon, and Top 5 at the Deriv AI Hackathon. I enjoy the intensity and the constraint of building something real under pressure.
+    - title: Collaboration & Availability
+      questions:
+        - label: Are you available for freelance or contract work?
+          content: |
+            I'm selectively open to projects — especially anything involving LLM integration, fintech, or agentic AI systems. If the problem is interesting and the scope is clear, I'm keen to chat. Reach out via email or LinkedIn.
+        - label: What's your tech stack?
+          content: |
+            Python, TypeScript, SQL on the language side. Nuxt.js, FastAPI, LangGraph, LangChain for frameworks. Supabase, AWS, Azure, Vercel, Docker, GitHub Actions for infrastructure. Gemini, Groq, Pgvector, TensorFlow for AI/ML.
+        - label: Where are you based?
+          content: |
+            I'm based in Selangor, Malaysia. I work with teams both locally and remotely. Most of my hackathon and project collaborations have been hybrid or fully remote.
+    - title: About Me
+      questions:
+        - label: What drives you as an engineer?
+          content: |
+            I like building things that work in the real world, not just demos. The gap between a cool prototype and a production system is where the actual engineering happens — auth, data integrity, performance, cost optimization. That's the part I enjoy most.
+        - label: What's your background?
+          content: |
+            I hold a Bachelor of Computer Science (Hons.) from Quest International University, Ipoh. I've been building AI systems professionally since 2026 at FinKnight, and have been active in the Malaysian AI hackathon scene since 2025.
